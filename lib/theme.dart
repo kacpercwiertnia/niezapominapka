@@ -1,46 +1,45 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  static const Color scaffoldBg = Color(0xFF051621);
-  static const Color cardBg = Color(0xFF1C2B36);
-  static const Color primary = Color(0xFF61A5FF);
+  static const Color backgroundColor = Color(0xFF110F13);
+  static const Color cardBg = Color(0xFF091926);
   static const Color textPrimary = Colors.white;
-  static const Color textSecondary = Color(0xFFCFD8DC);
 
   static ThemeData theme = ThemeData(
-    brightness: Brightness.dark,
-    scaffoldBackgroundColor: scaffoldBg,
-    fontFamily: 'SF Pro Display',
-    colorScheme: const ColorScheme.dark(
-      primary: primary,
-      surface: cardBg,
+    useMaterial3: true,
+    scaffoldBackgroundColor: backgroundColor,
+    cardColor: cardBg,
+    appBarTheme: const AppBarTheme(
+      backgroundColor: backgroundColor,
+      centerTitle: false,
+      elevation: 0,
+      scrolledUnderElevation: 0,
+      titleTextStyle: TextStyle(
+        fontSize: 30,
+        fontWeight: FontWeight.w700,
+        color: textPrimary
+      ),
     ),
-    inputDecorationTheme: InputDecorationTheme(
-      filled: true,
-      fillColor: cardBg,
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide.none,
-      ),
-      contentPadding: const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 14,
-      ),
-      labelStyle: const TextStyle(color: textSecondary),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: cardBg,
+      foregroundColor: textPrimary,
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30)
+      )
     ),
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: cardBg,
-        foregroundColor: textSecondary,
-        padding: const EdgeInsets.symmetric(vertical: 14),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-        textStyle: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
+    cardTheme: CardThemeData(
+      color: AppTheme.cardBg,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+      clipBehavior: Clip.antiAlias,
+    ),
+    iconTheme: const IconThemeData(color: Colors.white),
+    textTheme: const TextTheme(
+      titleLarge: TextStyle(
+        fontSize: 22,
+        fontWeight: FontWeight.w700,
+        color: Colors.white,
+      )
     ),
   );
 }
