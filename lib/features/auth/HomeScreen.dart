@@ -16,44 +16,49 @@ class Homescreen extends ConsumerStatefulWidget {
 
 class _State extends ConsumerState<Homescreen> {
   final TextEditingController _usernameController = TextEditingController();
+  bool _isLoading = false;
 
-  Future<void> signIn(BuildContext context, CurrentUser userProvider, UserRepository userRepository) async {
-    var username = _usernameController.text;
+  Future<void> signIn(BuildContext context) async {
+    setState(() => _isLoading = true);
+
+    var username = _usernameController.text.trim();
+    final userProvider = ref.read(currentUserProvider.notifier);
+    final userRepository = ref.read(userRepositoryProvider);
+
 
     if (username.isEmpty){
+      setState(() => _isLoading = false);
       return; //no tu bedzie popup
     }
     
     var existingUser = await userRepository.getUser(username);
     
     if (existingUser == null){
-      userRepository.addUser(username);
+      var id = await userRepository.addUser(username);
+      userProvider.setUser(AppUser(id: id, username: username));
     }
-    
-    userProvider.setUser(AppUser(username: username));
+    else{
+      userProvider.setUser(existingUser);
+    }
 
-    Navigator.push(context, MaterialPageRoute(builder: (context) => GroupsScreen()));
+    if (!mounted) return;
+
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => GroupsScreen()));
   }
 
   @override
   Widget build(BuildContext context) {
-    final userProvider = ref.read(currentUserProvider.notifier);
-    final userRepository = ref.read(userRepositoryProvider);
-    
     return Scaffold(appBar: Apptitle(),
       body: Center(
         child: Column(
           children: [
             TextField(
               controller: _usernameController,
+              enabled: _isLoading,
             ),
-            ElevatedButton(onPressed: () => signIn(context, userProvider, userRepository), child: Text("Zaloguj"))
+            ElevatedButton(onPressed:  () async => await signIn(context), child: _isLoading ? CircularProgressIndicator() : Text("Zaloguj"))
           ],
         ),
       ));
   }
-
-
-
-
 }

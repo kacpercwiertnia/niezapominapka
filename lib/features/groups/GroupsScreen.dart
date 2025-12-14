@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:niezapominapka/features/auth/CurrentUser.dart';
 import 'GroupCard.dart';
 import 'package:niezapominapka/components/molecules/AppTitle.dart';
 
-class GroupsScreen extends StatefulWidget {
+class GroupsScreen extends ConsumerStatefulWidget {
   const GroupsScreen ({super.key});
 
   @override
-  State<GroupsScreen> createState() => _GroupsScreenState();
+  ConsumerState<GroupsScreen> createState() => _GroupsScreenState();
 }
 
-class _GroupsScreenState extends State<GroupsScreen> {
+class _GroupsScreenState extends ConsumerState<GroupsScreen> {
   final List<String> groups = const [
     "Pokój 501",
     "Urodziny Ani",
@@ -18,6 +20,8 @@ class _GroupsScreenState extends State<GroupsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var curUser = ref.read(currentUserProvider.notifier);
+
     return Scaffold(
       appBar: Apptitle(),
       body: SafeArea(

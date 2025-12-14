@@ -35,9 +35,9 @@ class UserRepository {
 
     var db = await _getDb();
 
-    await db.insert("users", user.toMap());
+    var id = db.insert("users", user.toMap());
 
-    return 1;
+    return id;
   }
 }
 
