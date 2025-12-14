@@ -54,15 +54,11 @@ class _State extends ConsumerState<Homescreen> {
           children: [
             TextField(
               controller: _usernameController,
-              enabled: _isLoading,
+              // enabled: _isLoading,
             ),
             ElevatedButton(onPressed:  () async => await signIn(context), child: _isLoading ? CircularProgressIndicator() : Text("Zaloguj"))
           ],
         ),
       ));
   }
-
-
-
-
 }

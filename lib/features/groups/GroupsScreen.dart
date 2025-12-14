@@ -22,7 +22,7 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final userProvider = ref.read(currentUserProvider.notifier);
+    final userProvider = ref.watch(currentUserProvider);
     return Scaffold(
       appBar: Apptitle(showBack: widget.showBack),
       body: SafeArea(
@@ -30,7 +30,7 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           child: ListView.separated(
             itemBuilder: (context, index) {
-              final name = userProvider.build()?.username ?? "elo";
+              final name = userProvider?.username ?? "elo";
               return GroupCard(title: name);
             },
             separatorBuilder: (_, __) => const SizedBox(height: 16),

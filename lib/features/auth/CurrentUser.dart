@@ -5,7 +5,7 @@ import 'app_user.dart';
 
 part "CurrentUser.g.dart";
 
-@riverpod
+@Riverpod(keepAlive: true)
 class CurrentUser extends _$CurrentUser {
   @override
   AppUser? build(){
