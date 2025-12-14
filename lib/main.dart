@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:niezapominapka/features/auth/HomeScreen.dart';
 
 import 'theme.dart';
-import 'features/auth/login_screen.dart';
 
 void main() {
   runApp(const ProviderScope(child: NiezapominapkaApp()));
@@ -17,7 +17,7 @@ class NiezapominapkaApp extends StatelessWidget {
       title: 'Niezapominapka',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.theme,
-      home: const LoginScreen(),
+      home: const Homescreen(),
     );
   }
 }
