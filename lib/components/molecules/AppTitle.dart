@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 class Apptitle extends StatelessWidget implements PreferredSizeWidget{
-  const Apptitle ({super.key});
+  final bool showBack;
+  const Apptitle ({super.key, required this.showBack});
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      automaticallyImplyLeading: showBack,
       title: Image.asset("assets/logo_tekst.png", height: 40,)
     );
   }

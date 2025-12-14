@@ -48,7 +48,7 @@ class _State extends ConsumerState<Homescreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: Apptitle(),
+    return Scaffold(appBar: Apptitle(showBack:false),
       body: Center(
         child: Column(
           children: [
@@ -61,4 +61,8 @@ class _State extends ConsumerState<Homescreen> {
         ),
       ));
   }
+
+
+
+
 }
