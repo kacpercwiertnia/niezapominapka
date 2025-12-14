@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:niezapominapka/core/db/repositories/UserRepository.dart';
 import 'package:niezapominapka/features/auth/CurrentUser.dart';
 import 'package:niezapominapka/features/auth/app_user.dart';
+import 'package:niezapominapka/features/groups/GroupsScreen.dart';
 
 import '../../components/molecules/AppTitle.dart';
 
@@ -30,6 +31,8 @@ class _State extends ConsumerState<Homescreen> {
     }
     
     userProvider.setUser(AppUser(username: username));
+
+    Navigator.push(context, MaterialPageRoute(builder: (context) => GroupsScreen()));
   }
 
   @override
