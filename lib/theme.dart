@@ -14,11 +14,6 @@ class AppTheme {
       centerTitle: false,
       elevation: 0,
       scrolledUnderElevation: 0,
-      titleTextStyle: TextStyle(
-        fontSize: 30,
-        fontWeight: FontWeight.w700,
-        color: textPrimary
-      ),
     ),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       backgroundColor: cardBg,

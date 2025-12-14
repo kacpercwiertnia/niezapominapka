@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'GroupCard.dart';
+import 'package:niezapominapka/components/molecules/AppTitle.dart';
 
 class GroupsScreen extends StatefulWidget {
   const GroupsScreen ({super.key});
@@ -18,9 +19,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Niezapominapka")
-      ),
+      appBar: Apptitle(),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),

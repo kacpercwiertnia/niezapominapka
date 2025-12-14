@@ -6,8 +6,7 @@ class Apptitle extends StatelessWidget implements PreferredSizeWidget{
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      centerTitle: true,
-      title: Image.asset("assets/logo_text.png", height: 40,)
+      title: Image.asset("assets/logo_tekst.png", height: 40,)
     );
   }
 
