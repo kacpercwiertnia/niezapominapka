@@ -43,7 +43,7 @@ class _State extends ConsumerState<Homescreen> {
 
     if (!mounted) return;
 
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => GroupsScreen()));
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => GroupsScreen(showBack: false,)));
   }
 
   @override
