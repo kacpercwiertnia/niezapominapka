@@ -32,7 +32,7 @@ class _State extends ConsumerState<Homescreen> {
     
     userProvider.setUser(AppUser(username: username));
 
-    Navigator.push(context, MaterialPageRoute(builder: (context) => GroupsScreen()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => GroupsScreen(showBack: false,)));
   }
 
   @override
@@ -40,7 +40,7 @@ class _State extends ConsumerState<Homescreen> {
     final userProvider = ref.read(currentUserProvider.notifier);
     final userRepository = ref.read(userRepositoryProvider);
     
-    return Scaffold(appBar: Apptitle(),
+    return Scaffold(appBar: Apptitle(showBack:false),
       body: Center(
         child: Column(
           children: [

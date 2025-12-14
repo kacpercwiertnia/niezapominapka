@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'GroupCard.dart';
+import 'package:niezapominapka/features/auth/CurrentUser.dart';
 import 'package:niezapominapka/components/molecules/AppTitle.dart';
 
-class GroupsScreen extends StatefulWidget {
-  const GroupsScreen ({super.key});
+class GroupsScreen extends ConsumerStatefulWidget {
+  final bool showBack;
+
+  const GroupsScreen ({super.key, required this.showBack});
 
   @override
-  State<GroupsScreen> createState() => _GroupsScreenState();
+  ConsumerState<GroupsScreen> createState() => _GroupsScreenState();
 }
 
-class _GroupsScreenState extends State<GroupsScreen> {
+class _GroupsScreenState extends ConsumerState<GroupsScreen> {
   final List<String> groups = const [
     "Pokój 501",
     "Urodziny Ani",
@@ -18,14 +22,15 @@ class _GroupsScreenState extends State<GroupsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = ref.read(currentUserProvider.notifier);
     return Scaffold(
-      appBar: Apptitle(),
+      appBar: Apptitle(showBack: widget.showBack),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           child: ListView.separated(
             itemBuilder: (context, index) {
-              final name = groups[index];
+              final name = userProvider.build()?.username ?? "elo";
               return GroupCard(title: name);
             },
             separatorBuilder: (_, __) => const SizedBox(height: 16),
