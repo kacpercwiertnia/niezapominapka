@@ -1,15 +1,15 @@
 class AppUser {
-  final int id;
+  final int? id;
   final String username;
 
   AppUser({
-    required this.id,
+    this.id,
     required this.username,
   });
 
   factory AppUser.fromMap(Map<String, Object?> map) {
     return AppUser(
-      id: map['id'] as int,
+      id: map['id'] as int?,
       username: map['username'] as String,
     );
   }

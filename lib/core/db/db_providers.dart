@@ -10,11 +10,14 @@ final databaseProvider = Provider<AppDatabase>((ref) {
 
 final userGroupsProvider = FutureProvider<List<Group>>((ref) async {
   final db = ref.watch(databaseProvider);
-  final user = ref.watch(currentUserProvider);
+  // final user = ref.watch(currentUserProvider);
 
-  if (user == null) {
-    return [];
-  }
+  // if (user == null) {
+  //   return [];
+  // }
 
-  return db.getGroupsForUser(user.id);
+  // return db.getGroupsForUser(user.id);
+
+  List<Group> groups = [];
+  return groups;
 });
