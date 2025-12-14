@@ -8,8 +8,6 @@ final databaseProvider = Provider<AppDatabase>((ref) {
   return AppDatabase.instance;
 });
 
-final currentUserProvider = StateProvider<AppUser?>((ref) => null);
-
 final userGroupsProvider = FutureProvider<List<Group>>((ref) async {
   final db = ref.watch(databaseProvider);
   final user = ref.watch(currentUserProvider);
