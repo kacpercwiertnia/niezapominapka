@@ -22,8 +22,8 @@ class _State extends ConsumerState<Homescreen> {
     setState(() => _isLoading = true);
 
     var username = _usernameController.text.trim();
-    final userProvider = ref.read(currentUserProvider.notifier);
-    final userRepository = ref.read(userRepositoryProvider);
+    final userProvider = ref.watch(currentUserProvider.notifier);
+    final userRepository = ref.watch(userRepositoryProvider);
 
 
     if (username.isEmpty){
@@ -54,7 +54,7 @@ class _State extends ConsumerState<Homescreen> {
           children: [
             TextField(
               controller: _usernameController,
-              enabled: _isLoading,
+              enabled: !_isLoading,
             ),
             ElevatedButton(onPressed:  () async => await signIn(context), child: _isLoading ? CircularProgressIndicator() : Text("Zaloguj"))
           ],
