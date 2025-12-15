@@ -7,14 +7,14 @@ import 'package:niezapominapka/features/groups/GroupsScreen.dart';
 
 import '../../components/molecules/AppTitle.dart';
 
-class Homescreen extends ConsumerStatefulWidget {
-  const Homescreen ({super.key});
+class LoginScreen extends ConsumerStatefulWidget {
+  const LoginScreen ({super.key});
 
   @override
-  ConsumerState<Homescreen> createState() => _State();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _State extends ConsumerState<Homescreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   final TextEditingController _usernameController = TextEditingController();
   bool _isLoading = false;
 
@@ -48,21 +48,33 @@ class _State extends ConsumerState<Homescreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: Apptitle(showBack:false),
-      body: Center(
-        child: Column(
-          children: [
-            TextField(
-              controller: _usernameController,
-              enabled: !_isLoading,
-            ),
-            ElevatedButton(onPressed:  () async => await signIn(context), child: _isLoading ? CircularProgressIndicator() : Text("Zaloguj"))
-          ],
+    return Scaffold(
+      appBar: Apptitle(showBack:false),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                "Nazwa użytkownika",
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              const SizedBox(height: 14),
+              TextField(
+                controller: _usernameController,
+                enabled: !_isLoading,
+              ),
+              const SizedBox(height: 14),
+              ElevatedButton.icon(
+                onPressed: _isLoading ? null : () async => await signIn(context),
+                icon: const Icon(Icons.login),
+                label: const Text("Zaloguj się"),
+              )
+            ],
+          ),
         ),
-      ));
+      )
+    );
   }
-
-
-
-
 }
