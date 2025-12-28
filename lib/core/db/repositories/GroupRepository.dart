@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:niezapominapka/core/db/app_database.dart';
+import 'package:niezapominapka/features/groups/model/group_member_model.dart';
 import 'package:niezapominapka/features/groups/model/group_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sqflite/sqflite.dart';
@@ -9,6 +11,7 @@ class GroupRepository {
   final AppDatabase _appDatabase;
 
   final String tableName = "groups";
+  final String relationTableName = "group_members";
 
   Future<Database> _getDb() async {
     return await _appDatabase.database;
@@ -39,18 +42,22 @@ class GroupRepository {
     ''', [userId]);
 
     if (result.isNotEmpty){
-      return result.map((group) => Group.fromMap(group)).toList();
+      var groups = result.map((group) => Group.fromMap(group)).toList();
+      debugPrint("Z repozytorium przy fetchu");
+      debugPrint(groups.toString());
+      return groups;
     }
 
     return [];
   }
 
-  Future<int> addGroup(String name) async {
+  Future<int> addGroup(String name, int userId) async {
     var group = Group(name: name.trim());
 
     var db = await _getDb();
 
-    var id = db.insert(tableName, group.toMap());
+    var id = await db.insert(tableName, group.toMap());
+    db.insert(relationTableName, GroupMember(userId: userId, groupId: id).toMap());
 
     return id;
   }

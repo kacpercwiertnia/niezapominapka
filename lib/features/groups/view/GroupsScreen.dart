@@ -39,6 +39,8 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (e, st) => Center(child: Text("Błąd: $e")),
               data: (groups) {
+                debugPrint("Ze srodka komponentu");
+                debugPrint(groups.toString());
                 if (groups.isEmpty) {
                   return const Center(child: Text("Nie masz żadnych grup"));
                 }
@@ -48,7 +50,7 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                   separatorBuilder: (_, __) => const SizedBox(height: 16),
                   itemBuilder: (context, index) {
                     final g = groups[index];
-                    return GroupCard(title: g.name);
+                    return GroupCard(group: g);
                   },
                 );
               },
