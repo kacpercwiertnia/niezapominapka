@@ -4,6 +4,7 @@ class AppTheme {
   static const Color backgroundColor = Color(0xFF110F13);
   static const Color cardBg = Color(0xFF091926);
   static const Color inputButtonBg = Color(0xFF253746);
+  static const Color inputButtonSelectedBg = Color(0xFF4A6278);
   static const Color textPrimary = Colors.white;
   static const Color textSecondary = Color(0xFFCFD8DC);
   static const Color primary = Color(0xFF61A5FF);
@@ -85,4 +86,30 @@ class AppTheme {
       ),
     ),
   );
+
+  static ButtonStyle get unselectedElevatedButtonStyle => ButtonStyle(
+    backgroundColor: const WidgetStatePropertyAll(inputButtonBg),
+    foregroundColor: const WidgetStatePropertyAll(textSecondary),
+    elevation: const WidgetStatePropertyAll(0),
+    padding: const WidgetStatePropertyAll(
+      EdgeInsets.symmetric(horizontal: 18, vertical: 18),
+    ),
+    shape: WidgetStatePropertyAll(
+      RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(18),
+      ),
+    ),
+    textStyle: const WidgetStatePropertyAll(
+      TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+    ),
+  );
+
+  // Styl Wybrany - kopiuje bazowy i zmienia tylko tło oraz kolor tekstu na biały
+  static ButtonStyle get selectedElevatedButtonStyle => unselectedElevatedButtonStyle.copyWith(
+    backgroundColor: const WidgetStatePropertyAll(inputButtonSelectedBg),
+    foregroundColor: const WidgetStatePropertyAll(Colors.white),
+    elevation: const WidgetStatePropertyAll(2), // Opcjonalnie lekki cień dla wyróżnienia
+  );
 }
+
+
