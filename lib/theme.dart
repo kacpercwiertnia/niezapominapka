@@ -65,6 +65,7 @@ class AppTheme {
         borderSide: BorderSide.none,
       ),
     ),
+
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
         backgroundColor: const WidgetStatePropertyAll(inputButtonBg),
