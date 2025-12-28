@@ -20,7 +20,7 @@ class _GroupScreenState extends ConsumerState<GroupScreen> {
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      appBar: Apptitle(showBack: true),
+      appBar: AppTitle(showBack: true),
       body: SafeArea(
           child: Row(
             children: [
@@ -28,10 +28,23 @@ class _GroupScreenState extends ConsumerState<GroupScreen> {
                   onPressed: () => setState(() =>
                     curView = GroupView.Expenses
                   ),
-                  child: Text("Wydatkli"))
+                  child: Text("Wydatki"),
+              ),
+              ElevatedButton(
+                onPressed: () => setState(() =>
+                curView = GroupView.ShopList
+                ),
+                child: Text("Lista zakupów"),
+              ),
+              ElevatedButton(
+                onPressed: () => setState(() =>
+                curView = GroupView.Bills
+                ),
+                child: Text("Rachunki"),
+              ),
             ],
           )
       )
-    )
+    );
   }
 }
