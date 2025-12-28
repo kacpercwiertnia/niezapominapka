@@ -8,10 +8,24 @@ part "GroupRepository.g.dart";
 class GroupRepository {
   final AppDatabase _appDatabase;
 
+  final String tableName = "groups";
+
   Future<Database> _getDb() async {
     return await _appDatabase.database;
   }
   GroupRepository(this._appDatabase);
+
+  Future<Group?> getGroupByName(String name) async {
+    var db = await _getDb();
+
+    var group = await db.query(
+      tableName,
+      where: 'name = ?',
+      whereArgs: [name.trim()]
+    );
+
+    return group.isNotEmpty ? Group.fromMap(group.first) : null;
+  }
 
   Future<List<Group>> getGroupsForUserId(int userId) async {
     var db = await _getDb();
@@ -29,6 +43,16 @@ class GroupRepository {
     }
 
     return [];
+  }
+
+  Future<int> addGroup(String name) async {
+    var group = Group(name: name.trim());
+
+    var db = await _getDb();
+
+    var id = db.insert(tableName, group.toMap());
+
+    return id;
   }
 }
 

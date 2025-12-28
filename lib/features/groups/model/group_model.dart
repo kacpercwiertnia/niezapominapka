@@ -1,9 +1,9 @@
 class Group {
-  final int id;
+  final int? id;
   final String name;
 
   Group({
-    required this.id,
+    this.id,
     required this.name,
   });
 

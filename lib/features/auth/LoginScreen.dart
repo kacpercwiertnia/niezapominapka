@@ -28,7 +28,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
     if (username.isEmpty){
       setState(() => _isLoading = false);
-      return; //no tu bedzie popup
+      return; //TODO: no tu bedzie popup
     }
     
     var existingUser = await userRepository.getUser(username);

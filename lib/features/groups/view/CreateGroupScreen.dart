@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:niezapominapka/components/molecules/AppTitle.dart';
+import 'package:niezapominapka/core/db/repositories/GroupRepository.dart';
 import '../../../components/molecules/AppPage.dart';
 import 'GroupsScreen.dart';
 
@@ -19,6 +20,23 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
 
   Future<void> createGroup(BuildContext context) async {
     if (!mounted) return;
+    setState(() => _isLoading = true);
+
+    var groupName = _groupnameController.text.trim();
+    if (groupName.isEmpty){
+      setState(() => _isLoading = false);
+      return; //TODO: no tu bedzie popup
+    }
+    
+    var groupRepo = ref.watch(groupRepositoryProvider);
+    var existingGroup = await groupRepo.getGroupByName(groupName);
+    
+    if (existingGroup != null){
+      setState(() => _isLoading = false);
+      return; //TODO: tu bedzie error popup
+    }
+    
+    await groupRepo.addGroup(groupName);
 
     Navigator.push(context, MaterialPageRoute(builder: (context) => GroupsScreen(showBack: false,)));
   }
