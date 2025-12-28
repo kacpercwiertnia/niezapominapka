@@ -28,7 +28,7 @@ class _GroupScreenState extends ConsumerState<GroupScreen> {
                   onPressed: () => setState(() =>
                     curView = GroupView.Expenses
                   ),
-                  child: Text())
+                  child: Text("Wydatkli"))
             ],
           )
       )

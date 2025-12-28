@@ -41,7 +41,6 @@ class UserRepository {
   }
 }
 
-
 @riverpod
 UserRepository userRepository(UserRepositoryRef ref){
   final db = AppDatabase.instance;

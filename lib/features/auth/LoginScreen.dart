@@ -6,6 +6,7 @@ import 'package:niezapominapka/features/auth/app_user.dart';
 import 'package:niezapominapka/features/groups/GroupsScreen.dart';
 
 import '../../components/molecules/AppTitle.dart';
+import '../../components/molecules/AppPage.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen ({super.key});
@@ -24,7 +25,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     var username = _usernameController.text.trim();
     final userProvider = ref.watch(currentUserProvider.notifier);
     final userRepository = ref.watch(userRepositoryProvider);
-
 
     if (username.isEmpty){
       setState(() => _isLoading = false);
@@ -49,30 +49,27 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Apptitle(showBack:false),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                "Nazwa użytkownika",
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              const SizedBox(height: 14),
-              TextField(
-                controller: _usernameController,
-                enabled: !_isLoading,
-              ),
-              const SizedBox(height: 14),
-              ElevatedButton.icon(
-                onPressed: _isLoading ? null : () async => await signIn(context),
-                icon: const Icon(Icons.login),
-                label: const Text("Zaloguj się"),
-              )
-            ],
-          ),
+      appBar: AppTitle(showBack:false),
+      body: AppPage(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              "Nazwa użytkownika",
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            const SizedBox(height: 14),
+            TextField(
+              controller: _usernameController,
+              enabled: !_isLoading,
+            ),
+            const SizedBox(height: 14),
+            ElevatedButton.icon(
+              onPressed: _isLoading ? null : () async => await signIn(context),
+              icon: const Icon(Icons.login),
+              label: const Text("Zaloguj się"),
+            )
+          ],
         ),
       )
     );

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class Apptitle extends StatelessWidget implements PreferredSizeWidget{
+class AppTitle extends StatelessWidget implements PreferredSizeWidget{
   final bool showBack;
-  const Apptitle ({super.key, required this.showBack});
+  const AppTitle ({super.key, required this.showBack});
 
   @override
   Widget build(BuildContext context) {
