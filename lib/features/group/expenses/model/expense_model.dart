@@ -3,11 +3,13 @@ import 'package:niezapominapka/features/group/expenses/model/shopping_item.dart'
 class Expense {
   final int? id;
   final int userId; // Dodane pole userId
+  final int groupId;
   final DateTime date;
   final List<ShoppingItem> items;
 
   const Expense({
     this.id,
+    required this.groupId,
     required this.userId,
     required this.date,
     required this.items,
@@ -16,6 +18,7 @@ class Expense {
   factory Expense.fromMap(Map<String, dynamic> map) {
     return Expense(
       id: map['id'] as int?,
+      groupId: map['group_id'] as int,
       userId: map['user_id'] as int, // Mapowanie z bazy danych
       date: DateTime.parse(map['date'] as String),
       items: (map['items'] as List<dynamic>?)
@@ -29,6 +32,7 @@ class Expense {
     return {
       'id': id,
       'user_id': userId, // Nazwa kolumny w bazie danych
+      'group_id': groupId,
       'date': date.toIso8601String(),
       // Zauważ: items zazwyczaj zapisujemy w osobnej tabeli,
       // ale toMap() zachowuje tę strukturę dla spójności
@@ -40,12 +44,14 @@ class Expense {
   Expense copyWith({
     int? id,
     int? userId,
+    int? groupId,
     DateTime? date,
     List<ShoppingItem>? items,
   }) {
     return Expense(
       id: id ?? this.id,
       userId: userId ?? this.userId,
+      groupId: groupId ?? this.groupId,
       date: date ?? this.date,
       items: items ?? this.items,
     );

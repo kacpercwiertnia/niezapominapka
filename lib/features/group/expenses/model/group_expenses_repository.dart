@@ -18,6 +18,41 @@ class GroupExpensesRepository {
   final String tableName = "expenses";
   final String shoppingItemsTableName = "shopping_items";
 
+  Future<int> addExpense(List<ShoppingItem> items, int userId, int groupId) async {
+    final db = await _getDb();
+
+    final double expenseSum = items.fold(0, (acc, item) => acc + item.amount);
+
+    // Używamy transakcji, aby mieć pewność, że albo zapisze się WSZYSTKO, albo NIC
+    return await db.transaction((txn) async {
+
+      // 1. Wstawiamy nagłówek wydatku
+      final int expenseId = await txn.insert(tableName, {
+        'user_id': userId,
+        'group_id': groupId,
+        'date': DateTime.now().toIso8601String(),
+      });
+
+      // 2. Wstawiamy wszystkie przedmioty, przypisując im ID wydatku jako list_id
+      for (var item in items) {
+        await txn.insert(shoppingItemsTableName, {
+          'list_id': expenseId, // To jest klucz obcy łączący produkt z wydatkiem
+          'name': item.name,
+          'amount': item.amount,
+        });
+      }
+
+      txn.rawUpdate('''
+        UPDATE group_members
+        SET amount_spent = amount_spent + ?
+        WHERE user_id = ? AND group_id = ?
+      ''', [expenseSum, userId, groupId]);
+
+      // Zwracamy ID nowo utworzonego wydatku
+      return expenseId;
+    });
+  }
+
   Future<List<Expense>> getExpensesByGroupId(int groupId) async {
     final db = await _getDb();
 
@@ -49,6 +84,7 @@ class GroupExpensesRepository {
       expenses.add(
         Expense(
           id: expenseId,
+          groupId: expenseMap['group_id'] as int,
           userId: expenseMap['user_id'] as int,
           date: DateTime.parse(expenseMap['date'] as String),
           items: items,

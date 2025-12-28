@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:niezapominapka/features/group/shoplist/ShopListView.dart';
 
 import '../groups/model/group_model.dart';
 import 'GroupSection.dart';
+import 'bills/BillsView.dart';
 import 'expenses/ExpensesView.dart';
 
 class GroupSectionRenderer extends ConsumerWidget {
