@@ -15,7 +15,7 @@ final userGroupsProvider = FutureProvider.autoDispose<List<Group>>((ref) async {
 
   final repo = ref.watch(groupRepositoryProvider);
   var groupsForUser = await repo.getGroupsForUserId(user.id!);
-  debugPrint("Z tego providera grup magicznego");
-  debugPrint(groupsForUser.toString());
+  // debugPrint("Z tego providera grup magicznego");
+  // debugPrint(groupsForUser.toString());
   return groupsForUser;
 });

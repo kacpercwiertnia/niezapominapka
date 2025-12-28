@@ -54,10 +54,12 @@ class AppDatabase {
 
       // Tabela nagłówkowa dla listy zakupów / wydatku
       await db.execute('''
-      CREATE TABLE shopping_lists (
+      CREATE TABLE expenses (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         group_id INTEGER NOT NULL,
+        user_id INTEGER NOT NULL,
         date TEXT NOT NULL,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
         FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE
       );
     ''');
@@ -69,7 +71,7 @@ class AppDatabase {
         list_id INTEGER NOT NULL,
         name TEXT NOT NULL,
         amount REAL NOT NULL,
-        FOREIGN KEY (list_id) REFERENCES shopping_lists(id) ON DELETE CASCADE
+        FOREIGN KEY (list_id) REFERENCES expenses(id) ON DELETE CASCADE
       );
     ''');
   }

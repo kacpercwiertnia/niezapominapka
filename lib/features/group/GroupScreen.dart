@@ -7,6 +7,8 @@ import 'package:niezapominapka/features/group/GroupSection.dart';
 import 'package:niezapominapka/features/groups/model/group_model.dart';
 import 'package:niezapominapka/theme.dart';
 
+import 'GroupSectionRenderer.dart';
+
 class GroupScreen extends ConsumerStatefulWidget {
   final Group group;
 
@@ -61,7 +63,7 @@ class _GroupScreenState extends ConsumerState<GroupScreen> {
                   ],
                 ),
                 const SizedBox(height: 20,),
-                GroupSectionRenderer(selectedSection: curView)
+                GroupSectionRenderer(selectedSection: curView, currentGroup: widget.group,)
               ]
           )
       )

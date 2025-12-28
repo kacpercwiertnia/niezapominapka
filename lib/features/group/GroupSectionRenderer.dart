@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../groups/model/group_model.dart';
 import 'GroupSection.dart';
+import 'expenses/ExpensesView.dart';
 
 class GroupSectionRenderer extends ConsumerWidget {
   final GroupSection selectedSection;

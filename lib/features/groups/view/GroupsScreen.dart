@@ -39,8 +39,8 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (e, st) => Center(child: Text("Błąd: $e")),
               data: (groups) {
-                debugPrint("Ze srodka komponentu");
-                debugPrint(groups.toString());
+                // debugPrint("Ze srodka komponentu");
+                // debugPrint(groups.toString());
                 if (groups.isEmpty) {
                   return const Center(child: Text("Nie masz żadnych grup"));
                 }
