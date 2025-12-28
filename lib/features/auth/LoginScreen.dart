@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:niezapominapka/core/db/repositories/UserRepository.dart';
 import 'package:niezapominapka/features/auth/CurrentUser.dart';
 import 'package:niezapominapka/features/auth/app_user.dart';
-import 'package:niezapominapka/features/groups/GroupsScreen.dart';
+import 'package:niezapominapka/features/groups/view/GroupsScreen.dart';
 
 import '../../components/molecules/AppTitle.dart';
 import '../../components/molecules/AppPage.dart';

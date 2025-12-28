@@ -2,7 +2,7 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../features/auth/app_user.dart';
-import '../../features/groups/group_model.dart';
+import '../../features/groups/model/group_model.dart';
 
 class AppDatabase {
   AppDatabase._internal();

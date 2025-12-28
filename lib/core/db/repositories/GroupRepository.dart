@@ -1,5 +1,5 @@
 import 'package:niezapominapka/core/db/app_database.dart';
-import 'package:niezapominapka/features/groups/group_model.dart';
+import 'package:niezapominapka/features/groups/model/group_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sqflite/sqflite.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:niezapominapka/components/molecules/AppTitle.dart';
-import '../../components/molecules/AppPage.dart';
+import '../../../components/molecules/AppPage.dart';
 import 'GroupsScreen.dart';
 
 class CreateGroupScreen extends ConsumerStatefulWidget {

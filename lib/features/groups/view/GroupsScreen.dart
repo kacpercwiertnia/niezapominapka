@@ -3,18 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'GroupCard.dart';
 import 'package:niezapominapka/features/auth/CurrentUser.dart';
 import 'package:niezapominapka/components/molecules/AppTitle.dart';
-import '../../components/molecules/AppPage.dart';
+import '../../../components/molecules/AppPage.dart';
 import 'CreateGroupScreen.dart';
 import 'package:niezapominapka/core/db/repositories/GroupRepository.dart';
-import 'package:niezapominapka/features/groups/group_model.dart';
+import 'package:niezapominapka/features/groups/model/group_model.dart';
 
-final userGroupsProvider = FutureProvider.autoDispose<List<Group>>((ref) async {
-  final user = ref.watch(currentUserProvider);
-  if (user == null) return [];
+import '../model/user_group_provider.dart';
 
-  final repo = ref.watch(groupRepositoryProvider);
-  return repo.getGroupsForUserId(user.id!);
-});
+
 
 class GroupsScreen extends ConsumerStatefulWidget {
   final bool showBack;
