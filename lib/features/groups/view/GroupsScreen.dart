@@ -31,7 +31,6 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
 
     return Scaffold(
       appBar: AppTitle(showBack: widget.showBack),
-
       body: Stack(
         children: [
           AppPage(
