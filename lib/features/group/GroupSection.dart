@@ -1,4 +1,4 @@
-enum GroupView {
+enum GroupSection {
   Expenses,
   ShopList,
   Bills

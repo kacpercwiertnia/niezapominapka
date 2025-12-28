@@ -51,6 +51,27 @@ class AppDatabase {
         FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE
       );
     ''');
+
+      // Tabela nagłówkowa dla listy zakupów / wydatku
+      await db.execute('''
+      CREATE TABLE shopping_lists (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        group_id INTEGER NOT NULL,
+        date TEXT NOT NULL,
+        FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE
+      );
+    ''');
+
+      // Tabela dla konkretnych pozycji na liście
+      await db.execute('''
+      CREATE TABLE shopping_items (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        list_id INTEGER NOT NULL,
+        name TEXT NOT NULL,
+        amount REAL NOT NULL,
+        FOREIGN KEY (list_id) REFERENCES shopping_lists(id) ON DELETE CASCADE
+      );
+    ''');
   }
 
   // --- UŻYTKOWNICY ---

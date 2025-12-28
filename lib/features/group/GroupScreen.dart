@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:niezapominapka/components/molecules/AppPage.dart';
 import 'package:niezapominapka/components/molecules/AppTitle.dart';
-import 'package:niezapominapka/features/group/GroupView.dart';
+import 'package:niezapominapka/features/group/GroupSection.dart';
 import 'package:niezapominapka/features/groups/model/group_model.dart';
 import 'package:niezapominapka/theme.dart';
 
@@ -17,7 +17,7 @@ class GroupScreen extends ConsumerStatefulWidget {
 }
 
 class _GroupScreenState extends ConsumerState<GroupScreen> {
-  GroupView curView = GroupView.Expenses;
+  GroupSection curView = GroupSection.Expenses;
 
   @override
   Widget build(BuildContext context){
@@ -30,37 +30,38 @@ class _GroupScreenState extends ConsumerState<GroupScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
-                      style: curView == GroupView.Expenses
+                      style: curView == GroupSection.Expenses
                           ? AppTheme.selectedElevatedButtonStyle
                           : AppTheme.unselectedElevatedButtonStyle,
                       onPressed: () => setState(() =>
-                      curView = GroupView.Expenses
+                      curView = GroupSection.Expenses
                       ),
                       child: Text("Wydatki"),
                     ),
                     const SizedBox(width: 8,),
                     ElevatedButton(
-                      style: curView == GroupView.ShopList
+                      style: curView == GroupSection.ShopList
                           ? AppTheme.selectedElevatedButtonStyle
                           : AppTheme.unselectedElevatedButtonStyle,
                       onPressed: () => setState(() =>
-                      curView = GroupView.ShopList
+                      curView = GroupSection.ShopList
                       ),
                       child: Text("Lista zakupów"),
                     ),
                     const SizedBox(width: 8,),
                     ElevatedButton(
-                      style: curView == GroupView.Bills
+                      style: curView == GroupSection.Bills
                           ? AppTheme.selectedElevatedButtonStyle
                           : AppTheme.unselectedElevatedButtonStyle,
                       onPressed: () => setState(() =>
-                      curView = GroupView.Bills
+                      curView = GroupSection.Bills
                       ),
                       child: Text("Rachunki"),
                     ),
                   ],
                 ),
-                const SizedBox(height: 20,)
+                const SizedBox(height: 20,),
+                GroupSectionRenderer(selectedSection: curView)
               ]
           )
       )
