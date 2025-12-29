@@ -3,10 +3,11 @@ import 'package:flutter/cupertino.dart';
 import '../../../theme.dart';
 import 'model/expense_model.dart';
 
-class ExpenseListItem extends StatelessWidget {
-  final Expense expense;
+class ExpensesForDateListItem extends StatelessWidget {
+  final List<Expense> expenses;
+  final DateTime date;
 
-  const ExpenseListItem({super.key, required this.expense});
+  const ExpensesForDateListItem({super.key, required this.expenses, required this.date});
 
   String formatCustomDate(DateTime date){
     const months = [
@@ -23,8 +24,8 @@ class ExpenseListItem extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       spacing: 8.0,
       children: [
-        Text(formatCustomDate(expense.date)),
-        ...expense.items.map((item) {
+        Text(formatCustomDate(date)),
+        ...expenses.map((item) {
           return Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
             decoration: BoxDecoration(

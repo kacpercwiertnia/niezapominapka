@@ -21,7 +21,7 @@ class ExpensesView extends ConsumerWidget{
           return ListView.separated(
               itemBuilder: (context, index){
                 final e = expenses[index];
-                    return ExpenseListItem(expense: e);
+                    return ExpensesForDateListItem(expense: e);
               },
               separatorBuilder: (_, __) => const SizedBox(height: 8,),
               itemCount: expenses.length);

@@ -43,8 +43,8 @@ class GroupRepository {
 
     if (result.isNotEmpty){
       var groups = result.map((group) => Group.fromMap(group)).toList();
-      debugPrint("Z repozytorium przy fetchu");
-      debugPrint(groups.toString());
+      // debugPrint("Z repozytorium przy fetchu");
+      // debugPrint(groups.toString());
       return groups;
     }
 

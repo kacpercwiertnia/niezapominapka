@@ -1,18 +1,20 @@
-import 'package:niezapominapka/features/group/expenses/model/shopping_item.dart';
+import 'dart:ffi';
 
 class Expense {
   final int? id;
   final int userId; // Dodane pole userId
   final int groupId;
   final DateTime date;
-  final List<ShoppingItem> items;
+  final String name;
+  final double amount;
 
   const Expense({
     this.id,
     required this.groupId,
     required this.userId,
     required this.date,
-    required this.items,
+    required this.name,
+    required this.amount
   });
 
   factory Expense.fromMap(Map<String, dynamic> map) {
@@ -21,10 +23,8 @@ class Expense {
       groupId: map['group_id'] as int,
       userId: map['user_id'] as int, // Mapowanie z bazy danych
       date: DateTime.parse(map['date'] as String),
-      items: (map['items'] as List<dynamic>?)
-          ?.map((item) => ShoppingItem.fromMap(item as Map<String, dynamic>))
-          .toList() ??
-          [], // Bezpieczna obsługa pustej listy
+      name: map['name'] as String,
+      amount: map['amount'] as double
     );
   }
 
@@ -36,7 +36,8 @@ class Expense {
       'date': date.toIso8601String(),
       // Zauważ: items zazwyczaj zapisujemy w osobnej tabeli,
       // ale toMap() zachowuje tę strukturę dla spójności
-      'items': items.map((item) => item.toMap()).toList(),
+      'name': name,
+      'amount': amount
     };
   }
 
@@ -46,16 +47,16 @@ class Expense {
     int? userId,
     int? groupId,
     DateTime? date,
-    List<ShoppingItem>? items,
+    String? name,
+    double? amount
   }) {
     return Expense(
       id: id ?? this.id,
       userId: userId ?? this.userId,
       groupId: groupId ?? this.groupId,
       date: date ?? this.date,
-      items: items ?? this.items,
+      name: name ?? this.name,
+      amount: amount ?? this.amount
     );
   }
-
-  double get totalAmount => items.fold(0, (sum, item) => sum + item.amount);
 }
