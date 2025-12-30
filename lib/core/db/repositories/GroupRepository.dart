@@ -74,6 +74,20 @@ class GroupRepository {
 
     return id;
   }
+
+  Future<int?> addUserToGroup(int userId, int groupId) async {
+    var db = await _getDb();
+
+    try {
+      final id = await db.insert(
+        relationTableName,
+        GroupMember(userId: userId, groupId: groupId).toMap(),
+      );
+      return id; // id wstawionego wiersza
+    } catch (e) {
+      return null;
+    }
+  }
 }
 
 @riverpod
