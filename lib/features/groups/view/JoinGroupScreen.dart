@@ -78,39 +78,45 @@ class _JoinGroupScreenState extends ConsumerState<JoinGroupScreen> {
       appBar: AppTitle(showBack: widget.showBack),
 
       body: AppPage(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                "Podaj link do grupy",
-                style: Theme.of(context).textTheme.titleLarge,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              "Podaj link do grupy",
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            const SizedBox(height: 14),
+            TextField(
+              controller: _groupLinkController,
+              enabled: !_isLoading,
+            ),
+            const SizedBox(height: 14),
+            Text(
+              "Zeskanuj kod QR grupy",
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            const SizedBox(height: 14),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: AspectRatio(
+                aspectRatio: 16 / 9,
+                child: MobileScanner(
+                  controller: _mobileScannerController,
+                  onDetect: (capture) async {
+                    if (_isLoading) return;
+                    await joinGroup(context, code: capture.barcodes.firstOrNull?.rawValue);
+                  },
+                ),
               ),
-              const SizedBox(height: 14),
-              TextField(
-                controller: _groupLinkController,
-                enabled: !_isLoading,
-              ),
-              const SizedBox(height: 14),
-              Text(
-                "Zeskanuj kod QR grupy",
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              const SizedBox(height: 14),
-              MobileScanner(
-                controller: _mobileScannerController,
-                onDetect: (capture) async {
-                  if (_isLoading) return;
-                  return await joinGroup(context, code: capture.barcodes.firstOrNull?.rawValue);
-                },
-              ),
-              const SizedBox(height: 14),
-              ElevatedButton.icon(
-                onPressed: _isLoading ? null : () async => await joinGroup(context),
-                icon: const Icon(Icons.link),
-                label: const Text("Dołącz do grupy"),
-              )
-            ],
-          )
+            ),
+            const SizedBox(height: 14),
+            ElevatedButton.icon(
+              onPressed: _isLoading ? null : () async => await joinGroup(context),
+              icon: const Icon(Icons.link),
+              label: const Text("Dołącz do grupy"),
+            )
+          ],
+        )
       ),
     );
   }
