@@ -4,7 +4,10 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:niezapominapka/components/molecules/AppPage.dart';
 import 'package:niezapominapka/components/molecules/AppTitle.dart';
+import 'package:niezapominapka/components/oprganisms/dropdown_field.dart';
 import 'package:niezapominapka/components/oprganisms/number_field.dart';
+import 'package:niezapominapka/components/oprganisms/selection_list.dart';
+import 'package:niezapominapka/core/notifications/error_notification.dart';
 import 'package:niezapominapka/features/auth/app_user.dart';
 import 'package:niezapominapka/features/group/expenses/providers/group_users_provider.dart';
 
@@ -23,21 +26,57 @@ class AddExpenseScreen extends ConsumerStatefulWidget {
 }
 
 class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
-  final TextEditingController _nameController;
-  final TextEditingController _amountController;
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _amountController = TextEditingController();
   String? _whoPayed = null;
   List<AppUser> _whoToCountIn = [];
+  bool _isLoading = false;
 
-  void changeWhoPayed(String value){
-    setState(() => _whoPayed = value);
+
+  void changeWhoPayed(AppUser user){
+    setState(() => _whoPayed = user.username);
   }
 
   void changeWhoToCountIn(List<AppUser> users){
     setState(() => _whoToCountIn = users);
   }
 
+  bool areFieldsValid(BuildContext context){
+    var nameValue = _nameController.text.trim();
+    if (nameValue.isEmpty){
+      showError(context, "Musisz podać nazwę wydatku");
+      return false;
+    }
+
+    var amountStringValue = _amountController.text.trim();
+    var amountValue = double.tryParse(amountStringValue);
+    if (amountValue == null || amountValue <= 0){
+      showError(context, "Kwota wydatku musi być większa od 0");
+      return false;
+    }
+
+    if (_whoPayed == null || _whoPayed!.isEmpty){
+      showError(context, "Musisz wybrać płatnika");
+      return false;
+    }
+
+    if (_whoToCountIn.isEmpty){
+      showError(context, "Wybierz kogoś kogo wliczasz");
+      return false;
+    }
+
+    return true;
+  }
+
+  Future<void> addExpense(BuildContext context){
+    setState(() => _isLoading = true);
+
+    if (!areFieldsValid(context)){
+      return;
+    }
 
 
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +106,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
                   children: [
                     Text("Kwota"),
                     NumberField(
-                      controller: _nameController,
+                      controller: _amountController,
                     )
                   ],
                 )
@@ -93,6 +132,11 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
               loading: () => const CircularProgressIndicator(),
               error: (err, stack) => Text('Błąd: $err'),
             ),
+            ElevatedButton.icon(
+              onPressed: _isLoading ? null : () async => await addExpense(context),
+              icon: const Icon(Icons.attach_money_outlined),
+              label: const Text("Zaloguj się"),
+            )
           ],
         )
       ),
