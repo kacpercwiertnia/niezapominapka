@@ -45,7 +45,7 @@ class SelectionList extends StatelessWidget {
                 const SizedBox(width: 12),
                 // Nazwa użytkownika
                 Text(
-                  user.name,
+                  user.username,
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18,
