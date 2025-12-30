@@ -5,6 +5,7 @@ import 'package:niezapominapka/features/auth/CurrentUser.dart';
 import 'package:niezapominapka/components/molecules/AppTitle.dart';
 import '../../../components/molecules/AppPage.dart';
 import 'CreateGroupScreen.dart';
+import 'JoinGroupScreen.dart';
 import 'package:niezapominapka/core/db/repositories/GroupRepository.dart';
 import 'package:niezapominapka/features/groups/model/group_model.dart';
 
@@ -72,7 +73,7 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
             },
             onJoinGroup: () {
               _toggleMenu();
-              // TODO: akcja
+              Navigator.push(context, MaterialPageRoute(builder: (context) => JoinGroupScreen(showBack: true,)));
             },
           ),
         ],
