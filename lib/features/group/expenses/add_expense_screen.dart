@@ -7,8 +7,10 @@ import 'package:niezapominapka/components/molecules/AppTitle.dart';
 import 'package:niezapominapka/components/oprganisms/dropdown_field.dart';
 import 'package:niezapominapka/components/oprganisms/number_field.dart';
 import 'package:niezapominapka/components/oprganisms/selection_list.dart';
+import 'package:niezapominapka/core/db/repositories/GroupRepository.dart';
 import 'package:niezapominapka/core/notifications/error_notification.dart';
 import 'package:niezapominapka/features/auth/app_user.dart';
+import 'package:niezapominapka/features/group/expenses/model/group_expenses_repository.dart';
 import 'package:niezapominapka/features/group/expenses/providers/group_users_provider.dart';
 
 import '../../groups/model/group_model.dart';
@@ -28,13 +30,13 @@ class AddExpenseScreen extends ConsumerStatefulWidget {
 class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
-  String? _whoPayed = null;
+  AppUser? _whoPayed = null;
   List<AppUser> _whoToCountIn = [];
   bool _isLoading = false;
 
 
   void changeWhoPayed(AppUser user){
-    setState(() => _whoPayed = user.username);
+    setState(() => _whoPayed = user);
   }
 
   void changeWhoToCountIn(List<AppUser> users){
@@ -55,7 +57,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
       return false;
     }
 
-    if (_whoPayed == null || _whoPayed!.isEmpty){
+    if (_whoPayed == null){
       showError(context, "Musisz wybrać płatnika");
       return false;
     }
@@ -68,13 +70,20 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
     return true;
   }
 
-  Future<void> addExpense(BuildContext context){
+  Future<void> addExpense(BuildContext context) async {
     setState(() => _isLoading = true);
 
     if (!areFieldsValid(context)){
+      setState(() => _isLoading = false);
       return;
     }
 
+    var amountStringValue = _amountController.text.trim();
+    var amountValue = double.tryParse(amountStringValue);
+    var nameValue = _nameController.text.trim();
+
+    var groupRepository = ref.watch(groupExpensesRepositoryProvider);
+    await groupRepository.addExpense(_whoPayed!, _whoToCountIn, nameValue, amountValue!, widget.group.id!);
 
   }
 

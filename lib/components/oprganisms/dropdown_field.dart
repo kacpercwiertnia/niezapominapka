@@ -3,7 +3,7 @@ import 'package:niezapominapka/features/auth/app_user.dart';
 import 'package:niezapominapka/theme.dart';
 
 class DropdownField extends StatelessWidget {
-  final String? value; // Nazwa wybranego użytkownika
+  final AppUser? value; // Nazwa wybranego użytkownika
   final void Function(AppUser) onChange;
   final List<AppUser> availableOptions;
 
@@ -19,7 +19,7 @@ class DropdownField extends StatelessWidget {
     // Znajdujemy obiekt AppUser na podstawie stringa 'value'
     // Zakładamy, że value to nazwa użytkownika (u.name)
     final AppUser? selectedUser = availableOptions.cast<AppUser?>().firstWhere(
-          (u) => u?.username == value,
+          (u) => u?.id == value?.id,
       orElse: () => null,
     );
 
