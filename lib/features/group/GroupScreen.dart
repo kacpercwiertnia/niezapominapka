@@ -60,7 +60,10 @@ class _GroupScreenState extends ConsumerState<GroupScreen> {
                   children: [
                     SectionButtons(currentSection: curView, setSection: setSection),
                     const SizedBox(height: 20,),
-                    GroupSectionRenderer(selectedSection: curView, currentGroup: widget.group,)
+                    Expanded(child: GroupSectionRenderer(
+                      selectedSection: curView,
+                      currentGroup: widget.group,)
+                    )
                   ]
               )
           ),

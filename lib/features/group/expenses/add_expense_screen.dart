@@ -85,6 +85,9 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
     var groupRepository = ref.watch(groupExpensesRepositoryProvider);
     await groupRepository.addExpense(_whoPayed!, _whoToCountIn, nameValue, amountValue!, widget.group.id!);
 
+    if (mounted) {
+      Navigator.pop(context);
+    }
   }
 
   @override
@@ -101,16 +104,17 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
             Text("Dodaj rozliczenie"),
             Row(
               children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("Nazwa"),
-                    TextField(
-                      controller: _nameController,
-                    )
-                  ],
+                Expanded(child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Nazwa"),
+                      TextField(
+                        controller: _nameController,
+                      )
+                    ],
+                  ),
                 ),
-                Column(
+                Expanded(child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text("Kwota"),
@@ -118,7 +122,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
                       controller: _amountController,
                     )
                   ],
-                )
+                ))
               ],
             ),
             Text("Kto płacił"),
@@ -144,7 +148,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
             ElevatedButton.icon(
               onPressed: _isLoading ? null : () async => await addExpense(context),
               icon: const Icon(Icons.attach_money_outlined),
-              label: const Text("Zaloguj się"),
+              label: const Text("Dodaj rozliczenie"),
             )
           ],
         )
