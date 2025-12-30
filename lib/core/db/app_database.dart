@@ -73,9 +73,11 @@ class AppDatabase {
       CREATE TABLE payors (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         user_id INTEGER NOT NULL,
+        expense_id INTEGER NOT NULL,
         username TEXT NOT NULL,
         amount REAL NOT NULL,
-        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+        FOREIGN KEY (expense_id) REFERENCES expenses(id) ON DELETE CASCADE
       );
     ''');
   }
