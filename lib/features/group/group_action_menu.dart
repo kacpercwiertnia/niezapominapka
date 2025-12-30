@@ -22,8 +22,8 @@ class GroupActionMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context){
-    const double bannerHeight = 120;
-    const double bottomPadding = 120;
+    const double bannerHeight = 180;
+    const double bottomPadding = 100;
 
     return AnimatedPositioned(
       duration: const Duration(milliseconds: 220),
