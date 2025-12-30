@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:niezapominapka/core/db/app_database.dart';
+import 'package:niezapominapka/features/auth/app_user.dart';
 import 'package:niezapominapka/features/groups/model/group_member_model.dart';
 import 'package:niezapominapka/features/groups/model/group_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -18,6 +19,18 @@ class GroupRepository {
   }
   GroupRepository(this._appDatabase);
 
+  Future<List<AppUser>> getUsersForGroup(int groupId) async {
+    var db = await _getDb();
+
+    var result = await db.rawQuery('''
+      SELECT u.id, u.username
+      FROM users u
+      INNER JOIN group_members gm ON gm.user_id = u.id
+      WHERE gm.group_id = ?
+    ''', [groupId]);
+
+    return result.map((user) => AppUser.fromMap(user)).toList();
+  }
   Future<Group?> getGroupByName(String name) async {
     var db = await _getDb();
 

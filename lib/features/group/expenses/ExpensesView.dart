@@ -8,7 +8,7 @@ import 'package:niezapominapka/features/group/expenses/model/group_expenses_repo
 
 import '../../groups/model/group_model.dart';
 import 'model/expense_model.dart';
-import 'model/group_expenses_provider.dart';
+import 'providers/group_expenses_provider.dart';
 
 class ExpensesView extends ConsumerWidget{
   final Group group;
