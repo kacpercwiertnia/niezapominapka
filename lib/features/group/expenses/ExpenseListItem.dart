@@ -39,7 +39,7 @@ class ExpensesForDateListItem extends StatelessWidget {
                   item.name,
                 ),
                 Text(
-                  item.amount.toString(),
+                  "${item.amount.toString()} PLN",
                 ),
               ],
             ),

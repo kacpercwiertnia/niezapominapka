@@ -11,6 +11,7 @@ import 'package:niezapominapka/core/db/repositories/GroupRepository.dart';
 import 'package:niezapominapka/core/notifications/error_notification.dart';
 import 'package:niezapominapka/features/auth/app_user.dart';
 import 'package:niezapominapka/features/group/expenses/model/group_expenses_repository.dart';
+import 'package:niezapominapka/features/group/expenses/providers/group_expenses_provider.dart';
 import 'package:niezapominapka/features/group/expenses/providers/group_users_provider.dart';
 
 import '../../groups/model/group_model.dart';
@@ -84,6 +85,8 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
 
     var groupRepository = ref.watch(groupExpensesRepositoryProvider);
     await groupRepository.addExpense(_whoPayed!, _whoToCountIn, nameValue, amountValue!, widget.group.id!);
+
+    ref.invalidate(expensesForGroupProvider);
 
     if (mounted) {
       Navigator.pop(context);
