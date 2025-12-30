@@ -20,6 +20,8 @@ class AppDatabase {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, 'niezapominapka.db');
 
+    // await deleteDatabase(path);
+
     return openDatabase(
       path,
       version: 1,
@@ -73,8 +75,8 @@ class AppDatabase {
         user_id INTEGER NOT NULL,
         username TEXT NOT NULL,
         amount REAL NOT NULL,
-        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
-      )
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+      );
     ''');
   }
 
