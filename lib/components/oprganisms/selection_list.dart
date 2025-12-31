@@ -3,7 +3,7 @@ import 'package:niezapominapka/features/auth/app_user.dart';
 import 'package:niezapominapka/theme.dart';
 
 class SelectionList extends StatelessWidget {
-  final List<AppUser> value; // Wybrani użytkownicy
+  final List<AppUser> value;
   final void Function(List<AppUser>) onChange;
   final List<AppUser> availableOptions;
 
@@ -16,47 +16,30 @@ class SelectionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: availableOptions.map((user) {
-        // Sprawdzamy, czy dany użytkownik jest na liście wybranych
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: availableOptions.length,
+      itemBuilder: (context, i) {
+        final user = availableOptions[i];
         final isSelected = value.any((u) => u.id == user.id);
 
-        return InkWell(
-          onTap: () => _toggleUser(user, isSelected),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Row(
-              children: [
-                // Customowy Checkbox
-                SizedBox(
-                  height: 24,
-                  width: 24,
-                  child: Checkbox(
-                    value: isSelected,
-                    onChanged: (_) => _toggleUser(user, isSelected),
-                    activeColor: const Color(0xFF32465A), // Kolor ze zdjęcia
-                    checkColor: Colors.white,
-                    side: const BorderSide(color: Colors.transparent),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                // Nazwa użytkownika
-                Text(
-                  user.username,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
+        return CheckboxListTile(
+          value: isSelected,
+          onChanged: (_) => _toggleUser(user, isSelected),
+          controlAffinity: ListTileControlAffinity.leading,
+          contentPadding: EdgeInsets.zero,
+          dense: true,
+
+          activeColor: const Color(0xFF32465A),
+          checkColor: Colors.white,
+
+          title: Text(
+            user.username,
+            style: Theme.of(context).textTheme.bodyLarge
           ),
         );
-      }).toList(),
+      },
     );
   }
 

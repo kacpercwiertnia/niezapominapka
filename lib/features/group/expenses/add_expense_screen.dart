@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:niezapominapka/components/molecules/AppPage.dart';
@@ -34,7 +35,6 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
   AppUser? _whoPayed = null;
   List<AppUser> _whoToCountIn = [];
   bool _isLoading = false;
-
 
   void changeWhoPayed(AppUser user){
     setState(() => _whoPayed = user);
@@ -101,44 +101,78 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
       appBar: AppTitle(showBack: widget.showBack),
       body: AppPage(child:
         Column(
-          mainAxisAlignment: MainAxisAlignment.center, //nwm czy to dobra jest xd
-          spacing: 10,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text("Dodaj rozliczenie"),
+            Text(
+              "Dodaj rozliczenie",
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            const SizedBox(height: 14),
             Row(
               children: [
-                Expanded(child: Column(
+                Expanded(
+                  flex: 3,
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Nazwa"),
+                      Text(
+                        "Nazwa",
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
                       TextField(
                         controller: _nameController,
                       )
                     ],
                   ),
                 ),
-                Expanded(child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("Kwota"),
-                    NumberField(
-                      controller: _amountController,
-                    )
-                  ],
-                ))
+                const SizedBox(width: 14),
+                Expanded(
+                  flex: 2,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Kwota",
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      NumberField(
+                        controller: _amountController,
+                      )
+                    ],
+                  )
+                )
               ],
             ),
-            Text("Kto płacił"),
+            const SizedBox(height: 14),
+            Text(
+              "Kto płacił",
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            const SizedBox(height: 14),
             usersForGroup.when(
-                data: (users) =>
-                    DropdownField(
-                      value: _whoPayed,
-                      onChange: changeWhoPayed,
-                      availableOptions: users),
-                loading: () => const CircularProgressIndicator(),
-                error: (err, stack) => Text('Błąd: $err'),
-              ),
-            Text("Kogo wliczyć"),
+              data: (users) =>
+                DropdownButtonFormField<AppUser>(
+                  value: _whoPayed,
+                  onChanged: (u) {
+                    if (u != null) changeWhoPayed(u);
+                  },
+                  borderRadius: BorderRadius.circular(18),
+                  items: users
+                    .map((u) => DropdownMenuItem<AppUser>(
+                      value: u,
+                      child: Text(u.username),
+                    )
+                  ).toList(),
+                ),
+              loading: () => const CircularProgressIndicator(),
+              error: (err, stack) => Text('Błąd: $err'),
+            ),
+            const SizedBox(height: 14),
+            Text(
+              "Kogo wliczyć",
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            const SizedBox(height: 14),
             usersForGroup.when(
               data: (users) =>
                   SelectionList(
@@ -148,6 +182,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
               loading: () => const CircularProgressIndicator(),
               error: (err, stack) => Text('Błąd: $err'),
             ),
+            const SizedBox(height: 14),
             ElevatedButton.icon(
               onPressed: _isLoading ? null : () async => await addExpense(context),
               icon: const Icon(Icons.attach_money_outlined),
