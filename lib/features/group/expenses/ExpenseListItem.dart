@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import '../../../theme.dart';
 import 'model/expense_model.dart';
@@ -21,10 +21,13 @@ class ExpensesForDateListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       spacing: 8.0,
       children: [
-        Text(formatCustomDate(date)),
+        Text(
+          formatCustomDate(date),
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
         ...expenses.map((item) {
           return Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
@@ -37,9 +40,11 @@ class ExpensesForDateListItem extends StatelessWidget {
               children: [
                 Text(
                   item.name,
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 Text(
                   "${item.amount.toString()} PLN",
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
               ],
             ),

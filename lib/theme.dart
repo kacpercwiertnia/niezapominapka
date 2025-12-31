@@ -109,6 +109,15 @@ class AppTheme {
         ),
       ),
     ),
+
+    snackBarTheme: SnackBarThemeData(
+      behavior: SnackBarBehavior.floating,
+      elevation: 0,
+      backgroundColor: inputButtonBg, // jeśli SnackBary są głównie błędami
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+      insetPadding: const EdgeInsets.all(16), // odpowiednik Twojego margin
+      contentTextStyle: const TextStyle(color: textPrimary),
+    ),
   );
 
   static ButtonStyle get unselectedElevatedButtonStyle => ButtonStyle(
