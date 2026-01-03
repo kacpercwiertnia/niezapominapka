@@ -5,7 +5,7 @@ class ShopItem {
 
   const ShopItem({this.id, required this.groupId, required this.name});
 
-  factory ShopItem.fromList(Map<String, dynamic> map){
+  factory ShopItem.fromMap(Map<String, dynamic> map){
     return ShopItem(
         id: map['id'] as int,
         groupId: map['group_id'] as int,
