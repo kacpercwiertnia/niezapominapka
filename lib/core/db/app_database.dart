@@ -80,6 +80,15 @@ class AppDatabase {
         FOREIGN KEY (expense_id) REFERENCES expenses(id) ON DELETE CASCADE
       );
     ''');
+
+    await db.execute('''
+      CREATE TABLE shop_items (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        group_id INTEGER NOT NULL,
+        FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE
+      );
+    ''');
   }
 
   // --- UŻYTKOWNICY ---
