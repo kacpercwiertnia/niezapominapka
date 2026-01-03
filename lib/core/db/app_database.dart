@@ -20,7 +20,7 @@ class AppDatabase {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, 'niezapominapka.db');
 
-    // await deleteDatabase(path);
+    await deleteDatabase(path);
 
     return openDatabase(
       path,
@@ -48,7 +48,7 @@ class AppDatabase {
       CREATE TABLE group_members (
         user_id INTEGER NOT NULL,
         group_id INTEGER NOT NULL,
-        amount_spent REAL NOT NULL,
+        bilans REAL NOT NULL,
         PRIMARY KEY (user_id, group_id),
         FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
         FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE

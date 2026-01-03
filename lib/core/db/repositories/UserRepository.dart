@@ -30,6 +30,18 @@ class UserRepository {
     return null;
   }
 
+  Future<List<AppUser>> getUsersByIds(List<int> users_ids) async{
+    final db = await _getDb();
+
+    var placeholders = List.filled(users_ids.length, '?').join(',');
+
+    var results = await db.query('users',
+        where: 'id IN ($placeholders)',
+        whereArgs: users_ids);
+
+    return results.map((user) => AppUser.fromMap(user)).toList();
+  }
+
   Future<int> addUser(String username) async {
     var user = AppUser(username: username);
 

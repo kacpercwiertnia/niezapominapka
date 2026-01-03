@@ -37,7 +37,7 @@ class GroupExpensesRepository {
 
       txn.rawUpdate('''
         UPDATE group_members
-        SET amount_spent = amount_spent + ?
+        SET bilans = bilans + ?
         WHERE user_id = ? AND group_id = ?
       ''', [amount, owner.id!, groupId]);
 
@@ -45,6 +45,12 @@ class GroupExpensesRepository {
       var amountToPayPerPayor = amount / payors.length;
 
       for (var payor in payors){
+        batch.rawUpdate('''
+          UPDATE group_members
+          SET bilans = bilans - ?
+          WHERE user_id = ? AND group_id = ?
+        ''', [amountToPayPerPayor, payor.id, groupId]);
+
         batch.insert(payorsTable, {
           'user_id': payor.id,
           'username': payor.username,

@@ -1,12 +1,12 @@
 class GroupMember {
   final int userId;
   final int groupId;
-  final double amountSpent;
+  final double bilans;
 
   const GroupMember({
     required this.userId,
     required this.groupId,
-    this.amountSpent = 0.0
+    this.bilans = 0.0
   });
 
   // Konwersja z Mapy (pobieranie z bazy danych)
@@ -14,7 +14,7 @@ class GroupMember {
     return GroupMember(
       userId: map['user_id'] as int,
       groupId: map['group_id'] as int,
-      amountSpent: map['amount_spent'] as double
+        bilans: map['bilans'] as double
     );
   }
 
@@ -23,7 +23,7 @@ class GroupMember {
     return {
       'user_id': userId,
       'group_id': groupId,
-      'amount_spent': amountSpent
+      'bilans': bilans
     };
   }
 }

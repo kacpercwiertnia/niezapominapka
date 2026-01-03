@@ -1,5 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:niezapominapka/features/group/bills/bill_list_item.dart';
+import 'package:niezapominapka/features/group/bills/providers/payors_bills_for_group_provider.dart';
 import 'package:niezapominapka/features/groups/model/group_model.dart';
 
 class BillsView extends ConsumerWidget{
@@ -9,8 +12,20 @@ class BillsView extends ConsumerWidget{
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // TODO: implement build
-    throw UnimplementedError();
+    final payorsBills = ref.watch(payorsBillsForGroupProivder(group.id!));
+
+    return payorsBills.when(data: (bills) {
+      return ListView.separated(itemBuilder: (context, index){
+        final bill = bills[index];
+        return BillListItem(payorBill: bill);
+      },
+          separatorBuilder: (_, __) => const SizedBox(height: 8,),
+          itemCount: bills.length
+      );
+    },
+        error: (e, st) => Center(child: Text("Błąd: $e")),
+        loading: () => const Center(child: CircularProgressIndicator())
+    );
   }
 
 }
