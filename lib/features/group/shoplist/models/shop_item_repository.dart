@@ -26,6 +26,15 @@ class ShopItemRepository {
     var mappedShopItems = shopItems.map((si) => ShopItem.fromMap(si)).toList();
     return mappedShopItems;
   }
+
+  Future<void> removeItem(int itemId) async {
+    final db = await _getDb();
+
+    await db.delete(shopItemTableName,
+      where: 'id = ?',
+      whereArgs: [itemId]
+    );
+  }
 }
 
 @riverpod

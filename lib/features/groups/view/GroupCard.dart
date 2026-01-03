@@ -16,7 +16,6 @@ class GroupCard extends StatelessWidget {
   @override
   Widget build(BuildContext context){
     return Card(
-
       child: InkWell(
         onTap: () => onTap(context),
         splashColor: Colors.white.withValues(alpha: 0.3),
