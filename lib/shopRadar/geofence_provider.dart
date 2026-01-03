@@ -11,7 +11,7 @@ class GeofenceLogic{
     accuracy: 100,
     loiteringDelayMs: 60000,
     statusChangeDelayMs: 10000,
-    useActivityRecognition: true,
+    useActivityRecognition: false,
     allowMockLocations: false,
     printDevLog: true,
   );

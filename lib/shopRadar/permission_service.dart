@@ -12,8 +12,15 @@ class PermissionService {
 
       if (backgroundStatus.isGranted) {
         // 3. Dodatkowo dla Androida 13+ prosimy o powiadomienia
-        await Permission.notification.request();
-        return true;
+        var notificationPerm = await Permission.notification.request();
+
+        if (notificationPerm.isGranted){
+          // var activityStatus = await Permission.activityRecognition.request();
+          //
+          // if (activityStatus.isGranted){
+            return true;
+          // }
+        }
       }
     }
 
