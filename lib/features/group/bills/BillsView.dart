@@ -14,17 +14,25 @@ class BillsView extends ConsumerWidget{
   Widget build(BuildContext context, WidgetRef ref) {
     final payorsBills = ref.watch(payorsBillsForGroupProivder(group.id!));
 
-    return payorsBills.when(data: (bills) {
-      return ListView.separated(itemBuilder: (context, index){
-        final bill = bills[index];
-        return BillListItem(payorBill: bill);
-      },
-          separatorBuilder: (_, __) => const SizedBox(height: 8,),
-          itemCount: bills.length
-      );
-    },
-        error: (e, st) => Center(child: Text("Błąd: $e")),
-        loading: () => const Center(child: CircularProgressIndicator())
+    return Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        spacing: 8.0,
+        children: [
+          Text("Salda"),
+          SizedBox(height: 8,),
+          payorsBills.when(data: (bills) {
+            return ListView.separated(itemBuilder: (context, index){
+              final bill = bills[index];
+              return BillListItem(payorBill: bill);
+            },
+                separatorBuilder: (_, __) => const SizedBox(height: 8,),
+                itemCount: bills.length
+            );
+          },
+          error: (e, st) => Center(child: Text("Błąd: $e")),
+          loading: () => const Center(child: CircularProgressIndicator())
+          )
+        ],
     );
   }
 
