@@ -20,7 +20,7 @@ class AppDatabase {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, 'niezapominapka.db');
 
-    await deleteDatabase(path);
+    // await deleteDatabase(path);
 
     return openDatabase(
       path,

@@ -20,17 +20,19 @@ class BillsView extends ConsumerWidget{
         children: [
           Text("Salda"),
           SizedBox(height: 8,),
-          payorsBills.when(data: (bills) {
-            return ListView.separated(itemBuilder: (context, index){
-              final bill = bills[index];
-              return BillListItem(payorBill: bill);
+          Expanded(child:
+            payorsBills.when(data: (bills) {
+              return ListView.separated(itemBuilder: (context, index){
+                final bill = bills[index];
+                return BillListItem(payorBill: bill);
+              },
+                  separatorBuilder: (_, __) => const SizedBox(height: 8,),
+                  itemCount: bills.length
+              );
             },
-                separatorBuilder: (_, __) => const SizedBox(height: 8,),
-                itemCount: bills.length
-            );
-          },
-          error: (e, st) => Center(child: Text("Błąd: $e")),
-          loading: () => const Center(child: CircularProgressIndicator())
+                error: (e, st) => Center(child: Text("Błąd: $e")),
+                loading: () => const Center(child: CircularProgressIndicator())
+            )
           )
         ],
     );
