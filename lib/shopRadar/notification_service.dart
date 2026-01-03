@@ -1,10 +1,12 @@
+import 'dart:ui';
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class NotificationService {
   static final FlutterLocalNotificationsPlugin _notifications = FlutterLocalNotificationsPlugin();
 
   static Future<void> init() async {
-    const androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
+    const androidSettings = AndroidInitializationSettings('ic_notification_icon');
     const iosSettings = DarwinInitializationSettings(
       requestAlertPermission: true,
       requestBadgePermission: true,
@@ -27,6 +29,10 @@ class NotificationService {
       importance: Importance.max,
       priority: Priority.high,
       playSound: true,
+      largeIcon: DrawableResourceAndroidBitmap('app_logo'),
+
+      // Opcjonalnie: kolor paska/przycisku powiadomienia (np. niebieski z Twojego logo)
+      color: Color(0xFF64B5F6),
     );
 
     const iosDetails = DarwinNotificationDetails(
