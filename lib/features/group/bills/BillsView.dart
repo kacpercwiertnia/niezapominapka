@@ -15,26 +15,28 @@ class BillsView extends ConsumerWidget{
     final payorsBills = ref.watch(payorsBillsForGroupProivder(group.id!));
 
     return Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        spacing: 8.0,
-        children: [
-          Text("Salda"),
-          SizedBox(height: 8,),
-          Expanded(child:
-            payorsBills.when(data: (bills) {
-              return ListView.separated(itemBuilder: (context, index){
-                final bill = bills[index];
-                return BillListItem(payorBill: bill);
-              },
-                  separatorBuilder: (_, __) => const SizedBox(height: 8,),
-                  itemCount: bills.length
-              );
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      spacing: 8.0,
+      children: [
+        Text(
+          "Salda",
+          style: Theme.of(context).textTheme.titleLarge
+        ),
+        Expanded(child:
+          payorsBills.when(data: (bills) {
+            return ListView.separated(itemBuilder: (context, index){
+              final bill = bills[index];
+              return BillListItem(payorBill: bill);
             },
-                error: (e, st) => Center(child: Text("Błąd: $e")),
-                loading: () => const Center(child: CircularProgressIndicator())
-            )
+              separatorBuilder: (_, __) => const SizedBox(height: 8,),
+              itemCount: bills.length
+            );
+          },
+            error: (e, st) => Center(child: Text("Błąd: $e")),
+            loading: () => const Center(child: CircularProgressIndicator())
           )
-        ],
+        )
+      ],
     );
   }
 

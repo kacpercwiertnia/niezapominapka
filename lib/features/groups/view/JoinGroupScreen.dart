@@ -89,6 +89,7 @@ class _JoinGroupScreenState extends ConsumerState<JoinGroupScreen> {
             TextField(
               controller: _groupLinkController,
               enabled: !_isLoading,
+              autocorrect: false,
             ),
             const SizedBox(height: 14),
             Text(

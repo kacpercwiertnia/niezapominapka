@@ -121,6 +121,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
                       ),
                       TextField(
                         controller: _nameController,
+                        autocorrect: false,
                       )
                     ],
                   ),

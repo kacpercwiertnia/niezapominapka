@@ -15,6 +15,7 @@ class NumberField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       controller: controller,
+      autocorrect: false,
       keyboardType: TextInputType.numberWithOptions(
         decimal: allowDecimals,
       ),

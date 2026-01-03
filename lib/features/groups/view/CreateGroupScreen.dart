@@ -66,6 +66,7 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
             TextField(
               controller: _groupnameController,
               enabled: !_isLoading,
+              autocorrect: false,
             ),
             const SizedBox(height: 14),
             ElevatedButton.icon(

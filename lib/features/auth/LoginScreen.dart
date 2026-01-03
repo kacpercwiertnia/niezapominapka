@@ -62,6 +62,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             TextField(
               controller: _usernameController,
               enabled: !_isLoading,
+              autocorrect: false,
             ),
             const SizedBox(height: 14),
             ElevatedButton.icon(

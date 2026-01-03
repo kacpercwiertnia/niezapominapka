@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:niezapominapka/features/group/expenses/model/payor_model.dart';
 
 import '../../../theme.dart';
@@ -26,9 +26,11 @@ class BillListItem extends StatelessWidget {
               children: [
                 Text(
                   payorBill.username,
+                  style: Theme.of(context).textTheme.bodyLarge
                 ),
                 Text(
                   "${payorBill.amount} PLN",
+                  style: Theme.of(context).textTheme.bodyLarge
                 ),
               ],
             ),

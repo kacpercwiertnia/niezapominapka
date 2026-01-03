@@ -36,6 +36,7 @@ class _AddMemberScreenState extends ConsumerState<AddMemberScreen> {
             const SizedBox(height: 14),
             TextField(
               readOnly: true,
+              autocorrect: false,
               controller: TextEditingController(text: widget.inviteUrl),
               decoration: InputDecoration(
                   suffixIcon: IconButton(
