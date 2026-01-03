@@ -4,9 +4,12 @@ import 'package:niezapominapka/core/db/repositories/UserRepository.dart';
 import 'package:niezapominapka/features/auth/CurrentUser.dart';
 import 'package:niezapominapka/features/auth/app_user.dart';
 import 'package:niezapominapka/features/groups/view/GroupsScreen.dart';
+import 'package:niezapominapka/shopRadar/geofence_provider.dart';
+import 'package:niezapominapka/shopRadar/permission_service.dart';
 
 import '../../components/molecules/AppTitle.dart';
 import '../../components/molecules/AppPage.dart';
+import '../../core/notifications/error_notification.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen ({super.key});
@@ -28,7 +31,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
     if (username.isEmpty){
       setState(() => _isLoading = false);
-      return; //TODO: no tu bedzie popup
+      showError(context, "Nazwa użytkownika nie może być pusta");
+      return;
     }
     
     var existingUser = await userRepository.getUser(username);
@@ -39,6 +43,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     }
     else{
       userProvider.setUser(existingUser);
+    }
+
+    bool hasPermission = await PermissionService.requestLocationPermissions();
+
+    if (hasPermission){
+      var geofenceService = ref.read(geofenceServiceProvider);
+      geofenceService.startMonitoring();
     }
 
     if (!mounted) return;

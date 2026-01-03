@@ -2,6 +2,15 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Aplikacja potrzebuje lokalizacji, aby wiedzieć, kiedy jesteś blisko sklepu.</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>Aplikacja musi sprawdzać Twoją lokalizację w tle, aby powiadomić Cię o sklepie.</string>
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>location</string>
+        <string>fetch</string>
+    </array>
     <key>NSCameraUsageDescription</key>
     <string>Aplikacja potrzebuje dostępu do aparatu do skanowania kodów QR.</string>
 	<key>CFBundleDevelopmentRegion</key>

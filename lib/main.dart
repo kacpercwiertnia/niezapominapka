@@ -5,6 +5,7 @@ import 'package:niezapominapka/features/auth/LoginScreen.dart';
 import 'theme.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const ProviderScope(child: NiezapominapkaApp()));
 }
 
