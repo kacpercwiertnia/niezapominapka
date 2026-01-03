@@ -8,6 +8,33 @@ class AppTheme {
   static const Color textPrimary = Colors.white;
   static const Color textSecondary = Color(0xFFCFD8DC);
   static const Color primary = Color(0xFF61A5FF);
+  static final OutlineInputBorder _noBorder14 = OutlineInputBorder(
+    borderRadius: BorderRadius.circular(14),
+    borderSide: BorderSide.none,
+  );
+  static final InputDecorationThemeData _fieldDecoration = InputDecorationThemeData(
+    filled: true,
+    fillColor: inputButtonBg,
+    contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
+
+    hintStyle: const TextStyle(color: textSecondary),
+    labelStyle: const TextStyle(
+      color: textPrimary,
+      fontSize: 22,
+      fontWeight: FontWeight.w700,
+    ),
+
+    floatingLabelStyle: const TextStyle(color: textPrimary),
+
+    border: _noBorder14,
+    enabledBorder: _noBorder14,
+    focusedBorder: _noBorder14,
+    disabledBorder: _noBorder14,
+    errorBorder: _noBorder14,
+    focusedErrorBorder: _noBorder14,
+  );
+  static final RoundedRectangleBorder _menuShape =
+    RoundedRectangleBorder(borderRadius: BorderRadius.circular(18));
 
   static ThemeData theme = ThemeData.dark(useMaterial3: true).copyWith(
     scaffoldBackgroundColor: backgroundColor,
@@ -47,24 +74,21 @@ class AppTheme {
       bodyMedium: TextStyle(color: textPrimary),
     ),
 
-    inputDecorationTheme: InputDecorationThemeData(
-      filled: true,
-      fillColor: inputButtonBg,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
+    inputDecorationTheme: _fieldDecoration,
+    
+    dropdownMenuTheme: DropdownMenuThemeData(
+      inputDecorationTheme: _fieldDecoration,
+      menuStyle: MenuStyle(
+        backgroundColor: const WidgetStatePropertyAll(inputButtonBg),
+        surfaceTintColor: const WidgetStatePropertyAll(Colors.transparent),
+        shape: WidgetStatePropertyAll(_menuShape),
+        elevation: const WidgetStatePropertyAll(0),
+      )
+    ),
 
-      hintStyle: const TextStyle(color: textSecondary),
-      labelStyle: const TextStyle(
-        color: textPrimary,
-        fontSize: 22,
-        fontWeight: FontWeight.w700,
-      ),
-
-      floatingLabelStyle: const TextStyle(color: textPrimary),
-
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(14),
-        borderSide: BorderSide.none,
-      ),
+    checkboxTheme: CheckboxThemeData(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+      side: BorderSide(color: Colors.white.withOpacity(0.35), width: 2),
     ),
 
     elevatedButtonTheme: ElevatedButtonThemeData(
@@ -84,6 +108,15 @@ class AppTheme {
           TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
         ),
       ),
+    ),
+
+    snackBarTheme: SnackBarThemeData(
+      behavior: SnackBarBehavior.floating,
+      elevation: 0,
+      backgroundColor: inputButtonBg, // jeśli SnackBary są głównie błędami
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+      insetPadding: const EdgeInsets.all(16), // odpowiednik Twojego margin
+      contentTextStyle: const TextStyle(color: textPrimary),
     ),
   );
 

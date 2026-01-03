@@ -19,26 +19,14 @@ class NumberField extends StatelessWidget {
         decimal: allowDecimals,
       ),
       inputFormatters: [
-        // 1. Blokada znaków nieliczbowych
         allowDecimals
             ? FilteringTextInputFormatter.allow(RegExp(r'^\d*[.,]?\d{0,2}'))
             : FilteringTextInputFormatter.digitsOnly,
-
-        // 2. Konwersja przecinka na kropkę
         TextInputFormatter.withFunction((oldValue, newValue) {
           final text = newValue.text.replaceAll(',', '.');
           return newValue.copyWith(text: text);
         }),
       ],
-      decoration: InputDecoration(
-        // Brak labelText sprawia, że pole jest czyste
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-        filled: true,
-        fillColor: Colors.white,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      ),
     );
   }
 }

@@ -58,8 +58,16 @@ class _GroupScreenState extends ConsumerState<GroupScreen> {
           AppPage(
               child: Column(
                   children: [
-                    SectionButtons(currentSection: curView, setSection: setSection),
-                    const SizedBox(height: 20,),
+                    Text(
+                      widget.group.name,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    const SizedBox(height: 14),
+                    SectionButtons(
+                      currentSection: curView,
+                      setSection: setSection
+                    ),
+                    const SizedBox(height: 14),
                     Expanded(child: GroupSectionRenderer(
                       selectedSection: curView,
                       currentGroup: widget.group,)
