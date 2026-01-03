@@ -6,12 +6,12 @@ import '../../groups/model/group_model.dart';
 class ShopListView extends ConsumerWidget{
   final Group group;
 
-  ShopListView({super.key, required this.group});
+  ShopListView({required this.group});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // TODO: implement build
     throw UnimplementedError();
   }
-
+  
 }

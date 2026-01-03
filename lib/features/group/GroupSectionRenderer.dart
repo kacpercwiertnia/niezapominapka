@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:niezapominapka/features/group/shoplist/ShopListView.dart';
+import 'package:niezapominapka/features/group/shoplist/add_products_screen.dart';
+import 'package:niezapominapka/features/group/shoplist/shop_list_view.dart';
 
 import '../groups/model/group_model.dart';
 import 'GroupSection.dart';

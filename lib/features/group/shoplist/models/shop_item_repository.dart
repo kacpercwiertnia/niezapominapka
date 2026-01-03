@@ -15,6 +15,14 @@ class ShopItemRepository {
 
   final String shopItemTableName = "shop_items";
 
+  Future<void> addItem(String productName, int groupId) async {
+    final db = await _getDb();
+
+    var shopItem = ShopItem(groupId: groupId, name: productName);
+    await db.insert(shopItemTableName, shopItem.toMap());
+  }
+
+
   Future<List<ShopItem>> get(int groupId) async {
     final db = await _getDb();
 

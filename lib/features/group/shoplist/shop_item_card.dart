@@ -6,12 +6,11 @@ import 'package:niezapominapka/features/group/shoplist/providers/shop_item_group
 
 import '../../../theme.dart';
 
-class ShopItemList extends ConsumerWidget {
-  final List<ShopItem> shopItems;
-  final String? listTitle;
+class ShopItemCard extends ConsumerWidget{
+  final ShopItem item;
 
-  const ShopItemList({super.key, required this.shopItems, required this.listTitle});
-  
+  ShopItemCard({required this.item});
+
   Future<void> removeItem(WidgetRef ref, int itemId) async {
     var repo = ref.watch(shopItemRepositoryProvider);
 
@@ -21,30 +20,9 @@ class ShopItemList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      spacing: 8.0,
-      children: [
-        ...shopItems.map((item) {
-          return ShopItemListItem(item: item, onTap: (itemId) => removeItem(ref, itemId));
-        })
-      ],
-    );
-  }
-}
-
-class ShopItemListItem extends StatelessWidget{
-  final ShopItem item;
-  final Function(int) onTap;
-
-  ShopItemListItem({required this.item, required this.onTap});
-
-
-  @override
-  Widget build(BuildContext context) {
     return Card(
       child: InkWell(
-        onTap: () => onTap(item.id!),
+        onTap: () => removeItem(ref, item.id!),
         splashColor: Colors.white.withValues(alpha: 0.3),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 20),
