@@ -49,7 +49,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
     if (hasPermission){
       var geofenceService = ref.read(geofenceServiceProvider);
-      geofenceService.startMonitoring();
+      await geofenceService.startMonitoring();
     }
 
     if (!mounted) return;

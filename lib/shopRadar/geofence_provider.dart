@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geofence_service/geofence_service.dart';
 
+import 'notification_service.dart';
+
 final geofenceServiceProvider = Provider((ref) => GeofenceLogic());
 
 class GeofenceLogic{
@@ -14,7 +16,9 @@ class GeofenceLogic{
     printDevLog: true,
   );
 
-  void startMonitoring() {
+  Future<void> startMonitoring() async {
+    await NotificationService.init(); // <--- WAŻNE!
+
     _geofenceService.addGeofenceStatusChangeListener(_onGeofenceStatusChanged);
     _geofenceService.start(_geofenceList).catchError((e) => print("Błąd: $e"));
   }
@@ -25,9 +29,16 @@ class GeofenceLogic{
       GeofenceStatus geofenceStatus,
       Location location) async {
 
+    print('Status Geofence: ${geofenceStatus.toString()} dla ${geofence.id}');
+
     if (geofenceStatus == GeofenceStatus.ENTER) {
       print("WŁAŚNIE WSZEDŁEŚ DO: ${geofence.id}");
-      // TUTAJ DODAMY KOD POWIADOMIENIA LOKALNEGO
+
+      await NotificationService.showNotification(
+        id: geofence.id.hashCode, // Unikalne ID na podstawie nazwy sklepu
+        title: "Jesteś blisko sklepu!",
+        body: "Sklep: ${geofence.id} jest w zasięgu 100 metrów. Wejdź i kup co trzeba!",
+      );
     }
   }
 
