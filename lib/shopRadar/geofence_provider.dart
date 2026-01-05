@@ -44,9 +44,9 @@ class GeofenceLogic{
 
   final List<Geofence> _geofenceList = [
     Geofence(
-      id: 'sklep_1',
-      latitude: 52.2297,
-      longitude: 21.0122,
+      id: 'biedronka',
+      latitude: 50.07140908624185,
+      longitude: 19.905001422306473,
       radius: [GeofenceRadius(id: 'radius_100m', length: 100)],
     ),
   ];
