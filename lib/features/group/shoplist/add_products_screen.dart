@@ -6,8 +6,10 @@ import 'package:niezapominapka/components/molecules/AppTitle.dart';
 import 'package:niezapominapka/features/group/shoplist/models/shop_item_repository.dart';
 import 'package:niezapominapka/features/group/shoplist/providers/shop_item_group_provider.dart';
 import 'package:niezapominapka/features/group/shoplist/shop_item_card.dart';
+import 'package:niezapominapka/core/notifications/error_notification.dart';
 
 import '../../groups/model/group_model.dart';
+import '../../../theme.dart';
 
 class AddProductsScreen extends ConsumerStatefulWidget{
   final bool showBack;
@@ -24,7 +26,6 @@ class _AddProductsScreenState extends ConsumerState<AddProductsScreen>{
 
   bool _isLoading = false;
 
-
   @override
   Widget build(BuildContext context) {
 
@@ -33,6 +34,11 @@ class _AddProductsScreenState extends ConsumerState<AddProductsScreen>{
     Future<void> addItem() async {
       var repo = ref.watch(shopItemRepositoryProvider);
       var productName = _nameController.text.trim();
+
+      if( productName.isEmpty ){
+        showError(context, "Musisz podać nazwę produktu");
+        return;
+      }
 
       await repo.addItem(productName, widget.group.id!);
 
@@ -51,17 +57,54 @@ class _AddProductsScreenState extends ConsumerState<AddProductsScreen>{
               style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(height: 14,),
-            TextField(
-              controller: _nameController,
-              enabled: !_isLoading,
-              autocorrect: false,
-              decoration: InputDecoration(
-                labelText: "Nazwa produktu",
-                suffixIcon: IconButton(
-                    onPressed: _isLoading ? null : () async => await addItem(),
-                    icon: Icon(Icons.add))
+            Container(
+              decoration: BoxDecoration(
+                color: AppTheme.cardBg,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: SizedBox(
+                            child: TextField(
+                              controller: _nameController,
+                              enabled: !_isLoading,
+                              autocorrect: false,
+                              maxLines: 1,
+                              textAlignVertical: TextAlignVertical.center,
+                              textInputAction: TextInputAction.done,
+                              onSubmitted: (_) async {
+                                if (_isLoading) return;
+                                await addItem();
+                              },
+                              style: Theme.of(context).textTheme.bodyLarge,
+                              decoration: InputDecoration.collapsed(
+                                hintText: "Nazwa produktu",
+                                hintStyle: Theme.of(context).inputDecorationTheme.hintStyle,
+                              ),
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          borderRadius: BorderRadius.circular(8),
+                          onTap: _isLoading ? null : () async => await addItem(),
+                          child: const Center(
+                            child: Icon(Icons.add, size: 20),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ),
+            const SizedBox(height: 12),
             Expanded(
                 child: shopItemsForGroup.when(
                   data: (shopItems) {

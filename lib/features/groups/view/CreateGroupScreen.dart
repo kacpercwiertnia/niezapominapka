@@ -5,6 +5,7 @@ import 'package:niezapominapka/core/db/repositories/GroupRepository.dart';
 import 'package:niezapominapka/features/auth/CurrentUser.dart';
 import 'package:niezapominapka/features/groups/model/user_group_provider.dart';
 import '../../../components/molecules/AppPage.dart';
+import 'package:niezapominapka/core/notifications/error_notification.dart';
 import 'GroupsScreen.dart';
 
 class CreateGroupScreen extends ConsumerStatefulWidget {
@@ -27,20 +28,22 @@ class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
     var curUserId = ref.watch(currentUserProvider)?.id;
     if (curUserId == null){
       setState(() => _isLoading = false);
-      return; //TODO: nwm co tu ma byc to chyba niemozliwe
+      return;
     }
 
     var groupName = _groupnameController.text.trim();
     if (groupName.isEmpty){
       setState(() => _isLoading = false);
-      return; //TODO: no tu bedzie popup
+      showError(context, "Musisz podać nazwę grupy");
+      return;
     }
     
     var groupRepo = ref.watch(groupRepositoryProvider);
     var existingGroup = await groupRepo.getGroupByName(groupName);
     if (existingGroup != null){
       setState(() => _isLoading = false);
-      return; //TODO: tu bedzie error popup
+      showError(context, "Grupa o podanej nazwię już istnieje");
+      return;
     }
     
     await groupRepo.addGroup(groupName, curUserId);

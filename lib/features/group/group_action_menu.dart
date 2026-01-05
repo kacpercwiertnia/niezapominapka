@@ -38,7 +38,7 @@ class GroupActionMenu extends StatelessWidget {
         child: Column(
           children: [
             GroupDetailsActionRow(
-              icon: Icons.money,
+              icon: Icons.attach_money,
               title: "Dodaj rozliczenie",
               onTap: onAddExpense,
             ),

@@ -1,30 +1,60 @@
 PODS:
+  - fl_location (0.0.1):
+    - Flutter
   - Flutter (1.0.0)
+  - flutter_activity_recognition (0.0.1):
+    - Flutter
+  - flutter_local_notifications (0.0.1):
+    - Flutter
+  - geofence_service (0.0.1):
+    - Flutter
   - mobile_scanner (7.0.0):
     - Flutter
     - FlutterMacOS
+  - permission_handler_apple (9.3.0):
+    - Flutter
   - sqflite_darwin (0.0.4):
     - Flutter
     - FlutterMacOS
 
 DEPENDENCIES:
+  - fl_location (from `.symlinks/plugins/fl_location/ios`)
   - Flutter (from `Flutter`)
+  - flutter_activity_recognition (from `.symlinks/plugins/flutter_activity_recognition/ios`)
+  - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
+  - geofence_service (from `.symlinks/plugins/geofence_service/ios`)
   - mobile_scanner (from `.symlinks/plugins/mobile_scanner/darwin`)
+  - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - sqflite_darwin (from `.symlinks/plugins/sqflite_darwin/darwin`)
 
 EXTERNAL SOURCES:
+  fl_location:
+    :path: ".symlinks/plugins/fl_location/ios"
   Flutter:
     :path: Flutter
+  flutter_activity_recognition:
+    :path: ".symlinks/plugins/flutter_activity_recognition/ios"
+  flutter_local_notifications:
+    :path: ".symlinks/plugins/flutter_local_notifications/ios"
+  geofence_service:
+    :path: ".symlinks/plugins/geofence_service/ios"
   mobile_scanner:
     :path: ".symlinks/plugins/mobile_scanner/darwin"
+  permission_handler_apple:
+    :path: ".symlinks/plugins/permission_handler_apple/ios"
   sqflite_darwin:
     :path: ".symlinks/plugins/sqflite_darwin/darwin"
 
 SPEC CHECKSUMS:
+  fl_location: df295f3fd4f3c2357d7d8f23b01b0c23f4c84e4e
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
+  flutter_activity_recognition: 52dfad4c1e9cec99f0841b3ed0efcc9d424b3deb
+  flutter_local_notifications: a5a732f069baa862e728d839dd2ebb904737effb
+  geofence_service: 55b58292760f0f491e22b6b91355aab40564cfad
   mobile_scanner: 9157936403f5a0644ca3779a38ff8404c5434a93
+  permission_handler_apple: 4ed2196e43d0651e8ff7ca3483a069d469701f2d
   sqflite_darwin: 20b2a3a3b70e43edae938624ce550a3cbf66a3d0
 
-PODFILE CHECKSUM: 3c63482e143d1b91d2d2560aee9fb04ecc74ac7e
+PODFILE CHECKSUM: 899b1d78eadd16ce7778205714f8ccf088c694ac
 
 COCOAPODS: 1.16.2

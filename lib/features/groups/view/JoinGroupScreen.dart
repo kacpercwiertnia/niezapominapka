@@ -6,6 +6,7 @@ import 'package:niezapominapka/core/db/repositories/GroupRepository.dart';
 import 'package:niezapominapka/features/auth/CurrentUser.dart';
 import 'package:niezapominapka/features/groups/model/user_group_provider.dart';
 import '../../../components/molecules/AppPage.dart';
+import 'package:niezapominapka/core/notifications/error_notification.dart';
 import 'GroupsScreen.dart';
 
 class JoinGroupScreen extends ConsumerStatefulWidget {
@@ -40,14 +41,15 @@ class _JoinGroupScreenState extends ConsumerState<JoinGroupScreen> {
     if (curUserId == null){
       setState(() => _isLoading = false);
       await _mobileScannerController.stop();
-      return; //TODO: nwm co tu ma byc to chyba niemozliwe
+      return;
     }
 
     var groupLink = code == null ? _groupLinkController.text.trim() : code;
     if (groupLink.isEmpty) {
       setState(() => _isLoading = false);
       await _mobileScannerController.stop();
-      return; //TODO: no tu bedzie popup
+      showError(context, "Musisz podać link do grupy");
+      return;
     }
 
     var groupId = extractCodeAsInt(groupLink);
@@ -55,7 +57,8 @@ class _JoinGroupScreenState extends ConsumerState<JoinGroupScreen> {
     if (groupId == null) {
       setState(() => _isLoading = false);
       await _mobileScannerController.stop();
-      return; //TODO: popup, że invalid code
+      showError(context, "Link jest niepoprawny");
+      return;
     }
 
     var groupRepo = ref.watch(groupRepositoryProvider);
@@ -65,7 +68,8 @@ class _JoinGroupScreenState extends ConsumerState<JoinGroupScreen> {
     if (recordId == null) {
       setState(() => _isLoading = false);
       await _mobileScannerController.stop();
-      return; //TODO: popup, że nie udało się dodać do grupy/grupa nie istnieje
+      showError(context, "Nie udało się dołączyć do grupy");
+      return;
     }
 
     ref.invalidate(userGroupsProvider);

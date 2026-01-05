@@ -3,6 +3,8 @@
 <plist version="1.0">
 <dict>
     <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Potrzebujemy lokalizacji, aby wykrywać sklepy w pobliżu.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
     <string>Aplikacja potrzebuje lokalizacji, aby wiedzieć, kiedy jesteś blisko sklepu.</string>
     <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
     <string>Aplikacja musi sprawdzać Twoją lokalizację w tle, aby powiadomić Cię o sklepie.</string>
