@@ -25,10 +25,15 @@ class GeofenceLogic {
 
     await NotificationService.init();
 
-    _geofenceService.addGeofenceStatusChangeListener(_onGeofenceStatusChanged);
+    await NotificationService.requestIosPermissions();
+
+    if (!_listenerAdded) {
+      _geofenceService.addGeofenceStatusChangeListener(_onGeofenceStatusChanged);
+      _listenerAdded = true;
+    }
+
     await _geofenceService.start(_geofenceList);
   }
-
 
   Future<void> stopMonitoring() async {
     try {
@@ -50,11 +55,15 @@ class GeofenceLogic {
     if (geofenceStatus == GeofenceStatus.ENTER) {
       print("WŁAŚNIE WSZEDŁEŚ DO: ${geofence.id}");
 
-      await NotificationService.showNotification(
-        id: geofence.id.hashCode,
-        title: "Jesteś blisko sklepu!",
-        body: "Sklep: ${geofence.id} jest w zasięgu 100 metrów. Wejdź i kup co trzeba!",
-      );
+      if (geofenceStatus == GeofenceStatus.ENTER) {
+        final safeId = geofence.id.hashCode & 0x7fffffff;
+
+        await NotificationService.showNotification(
+          id: safeId,
+          title: "Jesteś blisko sklepu!",
+          body: "Sklep: ${geofence.id} jest w zasięgu 100 metrów. Wejdź i kup co trzeba!",
+        );
+      }
     }
   }
 
@@ -63,6 +72,12 @@ class GeofenceLogic {
       id: 'biedronka',
       latitude: 50.07140908624185,
       longitude: 19.905001422306473,
+      radius: [GeofenceRadius(id: 'radius_100m', length: 100)],
+    ),
+    Geofence(
+      id: 'zabka',
+      latitude: 50.06875220007963,
+      longitude: 19.909920014219765,
       radius: [GeofenceRadius(id: 'radius_100m', length: 100)],
     ),
   ];

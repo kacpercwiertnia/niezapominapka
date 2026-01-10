@@ -22,8 +22,8 @@ class PermissionService {
     // if (!always.isGranted) { await openAppSettings(); return false; }
 
     // 3) Notyfikacje (opcjonalnie)
-    final notif = await Permission.notification.request();
-    debugPrint('notification: $notif');
+    //final notif = await Permission.notification.request();
+    //debugPrint('notification: $notif');
 
     return true; // masz co najmniej WhenInUse
   }

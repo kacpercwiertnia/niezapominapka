@@ -5,16 +5,40 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 class NotificationService {
   static final FlutterLocalNotificationsPlugin _notifications = FlutterLocalNotificationsPlugin();
 
+  static bool _initialized = false;
+
   static Future<void> init() async {
+    if (_initialized) return;
+
     const androidSettings = AndroidInitializationSettings('ic_notification_icon');
     const iosSettings = DarwinInitializationSettings(
-      requestAlertPermission: true,
-      requestBadgePermission: true,
-      requestSoundPermission: true,
+      requestAlertPermission: false,
+      requestBadgePermission: false,
+      requestSoundPermission: false,
     );
 
     const settings = InitializationSettings(android: androidSettings, iOS: iosSettings);
-    await _notifications.initialize(settings);
+
+    await _notifications.initialize(
+      settings,
+      onDidReceiveNotificationResponse: (NotificationResponse response) {
+      },
+    );
+
+    _initialized = true;
+  }
+
+  static Future<bool> requestIosPermissions() async {
+    final ios = _notifications
+        .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>();
+
+    final granted = await ios?.requestPermissions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+
+    return granted ?? false;
   }
 
   static Future<void> showNotification({
@@ -23,22 +47,22 @@ class NotificationService {
     required String body
 }) async {
     const androidDetails = AndroidNotificationDetails(
-      'shop_radar_channel', // ID kanału (może być dowolne)
-      'Radar Sklepów',      // Nazwa kanału widoczna w ustawieniach
+      'shop_radar_channel',
+      'Radar Sklepów',
       channelDescription: 'Powiadomienia o sklepach w okolicy',
       importance: Importance.max,
       priority: Priority.high,
       playSound: true,
       largeIcon: DrawableResourceAndroidBitmap('app_logo'),
-
-      // Opcjonalnie: kolor paska/przycisku powiadomienia (np. niebieski z Twojego logo)
       color: Color(0xFF64B5F6),
     );
 
     const iosDetails = DarwinNotificationDetails(
-      presentAlert: true,
-      presentBadge: true,
+      presentBanner: true,
+      presentList: true,
       presentSound: true,
+      presentBadge: true,
+      presentAlert: true,
     );
 
     const details = NotificationDetails(android: androidDetails, iOS: iosDetails);
