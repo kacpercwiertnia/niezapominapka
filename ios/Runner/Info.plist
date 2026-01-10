@@ -3,15 +3,20 @@
 <plist version="1.0">
 <dict>
     <key>NSLocationWhenInUseUsageDescription</key>
-    <string>Potrzebujemy lokalizacji, aby wykrywać sklepy w pobliżu.</string>
-    <key>NSLocationWhenInUseUsageDescription</key>
     <string>Aplikacja potrzebuje lokalizacji, aby wiedzieć, kiedy jesteś blisko sklepu.</string>
     <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>Aplikacja musi sprawdzać Twoją lokalizację w tle, aby powiadomić Cię o sklepie.</string>
+    <key>NSLocationAlwaysUsageDescription</key>
     <string>Aplikacja musi sprawdzać Twoją lokalizację w tle, aby powiadomić Cię o sklepie.</string>
     <key>UIBackgroundModes</key>
     <array>
         <string>location</string>
         <string>fetch</string>
+        <string>processing</string>
+    </array>
+    <key>BGTaskSchedulerPermittedIdentifiers</key>
+    <array>
+        <string>com.pravera.geofence_service</string>
     </array>
     <key>NSCameraUsageDescription</key>
     <string>Aplikacja potrzebuje dostępu do aparatu do skanowania kodów QR.</string>

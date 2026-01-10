@@ -43,9 +43,11 @@ dependencies:
   collection: ^1.19.1
   mobile_scanner: ^7.1.4
   qr_flutter: ^4.1.0
-  geofence_service: ^6.0.0+1
   flutter_local_notifications: ^19.5.0
   permission_handler: ^12.0.1
+  # Foreground service for background geofencing
+  flutter_foreground_task: ^9.2.0
+  geolocator: ^14.0.0
 
 dev_dependencies:
   flutter_test:

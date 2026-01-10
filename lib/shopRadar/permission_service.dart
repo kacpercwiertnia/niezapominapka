@@ -14,17 +14,32 @@ class PermissionService {
       return false;
     }
 
-    // 2) Always (na iOS może nie pokazać prompta -> często trzeba Settings)
+    // 2) Always (WYMAGANE dla geofence w tle!)
     final always = await Permission.locationAlways.request();
     debugPrint('locationAlways: $always');
 
-    // Jeśli potrzebujesz geofence w tle na 100%, to tu możesz wymagać always:
-    // if (!always.isGranted) { await openAppSettings(); return false; }
+    // Dla geofence w tle MUSIMY mieć "Always" permission
+    if (!always.isGranted) {
+      debugPrint('Brak uprawnień do lokalizacji w tle - geofence nie będzie działać w tle!');
+      if (always.isPermanentlyDenied) {
+        await openAppSettings();
+      }
+      // Nadal zwracamy true, ale geofence nie będzie działać w tle
+      // Możesz tu zmienić na return false; jeśli chcesz wymagać always
+    }
 
-    // 3) Notyfikacje (opcjonalnie)
-    //final notif = await Permission.notification.request();
-    //debugPrint('notification: $notif');
+    // 3) Notyfikacje (WYMAGANE na Android 13+)
+    final notif = await Permission.notification.request();
+    debugPrint('notification: $notif');
 
-    return true; // masz co najmniej WhenInUse
+    return true;
+  }
+  
+  /// Sprawdza czy mamy wszystkie uprawnienia potrzebne do działania w tle
+  static Future<bool> hasBackgroundPermissions() async {
+    final locationAlways = await Permission.locationAlways.status;
+    final notification = await Permission.notification.status;
+    
+    return locationAlways.isGranted && notification.isGranted;
   }
 }

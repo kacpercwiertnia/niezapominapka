@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -26,6 +27,18 @@ class NotificationService {
     );
 
     _initialized = true;
+  }
+
+  // 👇 DODANA METODA DLA ANDROIDA 13+
+  static Future<bool> requestAndroidPermissions() async {
+    if (Platform.isAndroid) {
+      final androidImplementation = _notifications.resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>();
+
+      final bool? granted = await androidImplementation?.requestNotificationsPermission();
+      return granted ?? false;
+    }
+    return false;
   }
 
   static Future<bool> requestIosPermissions() async {
