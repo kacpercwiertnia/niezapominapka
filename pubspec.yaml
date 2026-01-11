@@ -48,6 +48,7 @@ dependencies:
   # Foreground service for background geofencing
   flutter_foreground_task: ^9.2.0
   geolocator: ^14.0.0
+  mysql1: ^0.20.0
 
 dev_dependencies:
   flutter_test:

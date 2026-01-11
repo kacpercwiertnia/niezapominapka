@@ -1,58 +1,66 @@
 PODS:
-  - fl_location (0.0.1):
-    - Flutter
   - Flutter (1.0.0)
-  - flutter_activity_recognition (0.0.1):
+  - flutter_foreground_task (0.0.1):
     - Flutter
   - flutter_local_notifications (0.0.1):
     - Flutter
-  - geofence_service (0.0.1):
+  - geolocator_apple (1.2.0):
     - Flutter
+    - FlutterMacOS
   - mobile_scanner (7.0.0):
     - Flutter
     - FlutterMacOS
+  - package_info_plus (0.4.5):
+    - Flutter
   - permission_handler_apple (9.3.0):
     - Flutter
+  - shared_preferences_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
   - sqflite_darwin (0.0.4):
     - Flutter
     - FlutterMacOS
 
 DEPENDENCIES:
-  - fl_location (from `.symlinks/plugins/fl_location/ios`)
   - Flutter (from `Flutter`)
-  - flutter_activity_recognition (from `.symlinks/plugins/flutter_activity_recognition/ios`)
+  - flutter_foreground_task (from `.symlinks/plugins/flutter_foreground_task/ios`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
-  - geofence_service (from `.symlinks/plugins/geofence_service/ios`)
+  - geolocator_apple (from `.symlinks/plugins/geolocator_apple/darwin`)
   - mobile_scanner (from `.symlinks/plugins/mobile_scanner/darwin`)
+  - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
+  - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
   - sqflite_darwin (from `.symlinks/plugins/sqflite_darwin/darwin`)
 
 EXTERNAL SOURCES:
-  fl_location:
-    :path: ".symlinks/plugins/fl_location/ios"
   Flutter:
     :path: Flutter
-  flutter_activity_recognition:
-    :path: ".symlinks/plugins/flutter_activity_recognition/ios"
+  flutter_foreground_task:
+    :path: ".symlinks/plugins/flutter_foreground_task/ios"
   flutter_local_notifications:
     :path: ".symlinks/plugins/flutter_local_notifications/ios"
-  geofence_service:
-    :path: ".symlinks/plugins/geofence_service/ios"
+  geolocator_apple:
+    :path: ".symlinks/plugins/geolocator_apple/darwin"
   mobile_scanner:
     :path: ".symlinks/plugins/mobile_scanner/darwin"
+  package_info_plus:
+    :path: ".symlinks/plugins/package_info_plus/ios"
   permission_handler_apple:
     :path: ".symlinks/plugins/permission_handler_apple/ios"
+  shared_preferences_foundation:
+    :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
   sqflite_darwin:
     :path: ".symlinks/plugins/sqflite_darwin/darwin"
 
 SPEC CHECKSUMS:
-  fl_location: df295f3fd4f3c2357d7d8f23b01b0c23f4c84e4e
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
-  flutter_activity_recognition: 52dfad4c1e9cec99f0841b3ed0efcc9d424b3deb
+  flutter_foreground_task: a159d2c2173b33699ddb3e6c2a067045d7cebb89
   flutter_local_notifications: a5a732f069baa862e728d839dd2ebb904737effb
-  geofence_service: 55b58292760f0f491e22b6b91355aab40564cfad
+  geolocator_apple: ab36aa0e8b7d7a2d7639b3b4e48308394e8cef5e
   mobile_scanner: 9157936403f5a0644ca3779a38ff8404c5434a93
+  package_info_plus: af8e2ca6888548050f16fa2f1938db7b5a5df499
   permission_handler_apple: 4ed2196e43d0651e8ff7ca3483a069d469701f2d
+  shared_preferences_foundation: 7036424c3d8ec98dfe75ff1667cb0cd531ec82bb
   sqflite_darwin: 20b2a3a3b70e43edae938624ce550a3cbf66a3d0
 
 PODFILE CHECKSUM: 899b1d78eadd16ce7778205714f8ccf088c694ac
