@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:niezapominapka/features/group/bills/bill_list_item.dart';
 import 'package:niezapominapka/features/group/bills/providers/payors_bills_for_group_provider.dart';
@@ -8,7 +7,7 @@ import 'package:niezapominapka/features/groups/model/group_model.dart';
 class BillsView extends ConsumerWidget{
   final Group group;
 
-  BillsView({super.key, required this.group});
+  const BillsView({super.key, required this.group});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

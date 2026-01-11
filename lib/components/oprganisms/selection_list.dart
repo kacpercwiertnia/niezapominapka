@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:niezapominapka/features/auth/app_user.dart';
-import 'package:niezapominapka/theme.dart';
 
 class SelectionList extends StatelessWidget {
   final List<AppUser> value;

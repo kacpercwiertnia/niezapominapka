@@ -44,7 +44,7 @@ class _JoinGroupScreenState extends ConsumerState<JoinGroupScreen> {
       return;
     }
 
-    var groupLink = code == null ? _groupLinkController.text.trim() : code;
+    var groupLink = code ?? _groupLinkController.text.trim();
     if (groupLink.isEmpty) {
       setState(() => _isLoading = false);
       await _mobileScannerController.stop();

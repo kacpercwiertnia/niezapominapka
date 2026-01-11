@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:niezapominapka/components/molecules/AppPage.dart';
@@ -10,7 +9,6 @@ import 'package:niezapominapka/features/group/group_action_menu.dart';
 import 'package:niezapominapka/features/group/section_buttons.dart';
 import 'package:niezapominapka/features/group/shoplist/add_products_screen.dart';
 import 'package:niezapominapka/features/groups/model/group_model.dart';
-import 'package:niezapominapka/theme.dart';
 
 import 'GroupSectionRenderer.dart';
 

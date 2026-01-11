@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'GroupCard.dart';
-import 'package:niezapominapka/features/auth/CurrentUser.dart';
 import 'package:niezapominapka/components/molecules/AppTitle.dart';
 import '../../../components/molecules/AppPage.dart';
 import 'CreateGroupScreen.dart';
 import 'JoinGroupScreen.dart';
-import 'package:niezapominapka/core/db/repositories/GroupRepository.dart';
-import 'package:niezapominapka/features/groups/model/group_model.dart';
 
 import '../model/user_group_provider.dart';
 
@@ -99,7 +96,7 @@ class BottomActionBanner extends StatelessWidget {
   final VoidCallback onCreateGroup;
   final VoidCallback onJoinGroup;
 
-  const BottomActionBanner({
+  const BottomActionBanner({super.key, 
     required this.visible,
     required this.onCreateGroup,
     required this.onJoinGroup,
@@ -144,7 +141,7 @@ class ActionRow extends StatelessWidget {
   final String title;
   final VoidCallback onTap;
 
-  const ActionRow({
+  const ActionRow({super.key, 
     required this.icon,
     required this.title,
     required this.onTap,

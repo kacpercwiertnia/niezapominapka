@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../groups/model/group_model.dart';
@@ -64,7 +63,7 @@ class GroupDetailsActionRow extends StatelessWidget {
   final String title;
   final VoidCallback onTap;
 
-  const GroupDetailsActionRow({
+  const GroupDetailsActionRow({super.key, 
     required this.icon,
     required this.title,
     required this.onTap,

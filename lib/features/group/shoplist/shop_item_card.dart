@@ -9,7 +9,7 @@ import '../../../theme.dart';
 class ShopItemCard extends ConsumerWidget{
   final ShopItem item;
 
-  ShopItemCard({required this.item});
+  const ShopItemCard({super.key, required this.item});
 
   Future<void> removeItem(WidgetRef ref, int itemId) async {
     var repo = ref.watch(shopItemRepositoryProvider);

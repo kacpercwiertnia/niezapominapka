@@ -1,14 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:niezapominapka/components/molecules/AppPage.dart';
 import 'package:niezapominapka/components/molecules/AppTitle.dart';
-import 'package:niezapominapka/components/oprganisms/dropdown_field.dart';
 import 'package:niezapominapka/components/oprganisms/number_field.dart';
 import 'package:niezapominapka/components/oprganisms/selection_list.dart';
-import 'package:niezapominapka/core/db/repositories/GroupRepository.dart';
 import 'package:niezapominapka/core/notifications/error_notification.dart';
 import 'package:niezapominapka/features/auth/app_user.dart';
 import 'package:niezapominapka/features/group/expenses/model/group_expenses_repository.dart';
@@ -32,7 +27,7 @@ class AddExpenseScreen extends ConsumerStatefulWidget {
 class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
-  AppUser? _whoPayed = null;
+  AppUser? _whoPayed;
   List<AppUser> _whoToCountIn = [];
   bool _isLoading = false;
 
@@ -153,7 +148,7 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
             usersForGroup.when(
               data: (users) =>
                 DropdownButtonFormField<AppUser>(
-                  value: _whoPayed,
+                  initialValue: _whoPayed,
                   onChanged: (u) {
                     if (u != null) changeWhoPayed(u);
                   },

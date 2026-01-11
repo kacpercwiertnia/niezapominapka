@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:niezapominapka/components/molecules/AppPage.dart';
 import 'package:niezapominapka/components/molecules/AppTitle.dart';
@@ -15,7 +14,7 @@ class AddProductsScreen extends ConsumerStatefulWidget{
   final bool showBack;
   final Group group;
 
-  AddProductsScreen({required this.showBack, required this.group});
+  const AddProductsScreen({super.key, required this.showBack, required this.group});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _AddProductsScreenState();
@@ -24,7 +23,7 @@ class AddProductsScreen extends ConsumerStatefulWidget{
 class _AddProductsScreenState extends ConsumerState<AddProductsScreen>{
   final TextEditingController _nameController = TextEditingController();
 
-  bool _isLoading = false;
+  final bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {

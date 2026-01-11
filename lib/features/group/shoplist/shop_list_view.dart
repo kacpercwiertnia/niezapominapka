@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:niezapominapka/features/group/shoplist/providers/shop_item_group_provider.dart';
 import 'package:niezapominapka/features/group/shoplist/shop_item_card.dart';
@@ -10,7 +8,7 @@ import '../../groups/model/group_model.dart';
 class ShopListView extends ConsumerWidget{
   final Group group;
 
-  ShopListView({required this.group});
+  const ShopListView({super.key, required this.group});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

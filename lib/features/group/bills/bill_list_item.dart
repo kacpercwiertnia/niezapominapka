@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:niezapominapka/features/group/expenses/model/payor_model.dart';
 
 import '../../../theme.dart';
 

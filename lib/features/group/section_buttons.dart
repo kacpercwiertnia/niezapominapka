@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:niezapominapka/features/group/GroupSection.dart';
 
@@ -8,7 +7,7 @@ class SectionButtons extends StatelessWidget {
   final GroupSection currentSection;
   final void Function(GroupSection) setSection;
 
-  SectionButtons({super.key, required this.currentSection, required this.setSection});
+  const SectionButtons({super.key, required this.currentSection, required this.setSection});
 
   @override
   Widget build(BuildContext context) {

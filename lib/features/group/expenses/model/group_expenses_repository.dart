@@ -1,4 +1,3 @@
-import 'package:niezapominapka/features/group/expenses/model/payor_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sqflite/sqflite.dart';
 
