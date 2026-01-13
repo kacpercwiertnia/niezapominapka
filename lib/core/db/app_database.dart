@@ -3,12 +3,6 @@ import 'package:mysql1/mysql1.dart' as mysql;
 import '../../features/auth/app_user.dart';
 import '../../features/groups/model/group_model.dart';
 
-/// Uwaga (ważne): bezpośrednie łączenie się aplikacji mobilnej z bazą MariaDB
-/// oznacza trzymanie danych logowania w aplikacji i wystawienie bazy na sieć.
-/// W praktyce lepiej użyć backendu (REST/GraphQL) jako pośrednika.
-///
-/// Jeśli mimo wszystko chcesz iść "direct DB" – ta klasa zastępuje sqflite i
-/// udostępnia połączenie mysql1 do MariaDB/MySQL.
 class AppDatabase {
   AppDatabase._internal();
   static final AppDatabase instance = AppDatabase._internal();
@@ -16,15 +10,12 @@ class AppDatabase {
   mysql.MySqlConnection? _conn;
   Future<mysql.MySqlConnection>? _opening;
 
-  // Najprościej: wstrzyknij przez --dart-define przy build/run.
-  // Przykład:
-  // flutter run --dart-define=DB_HOST=... --dart-define=DB_USER=... --dart-define=DB_PASS=... --dart-define=DB_NAME=...
-  static const String _host = "jchost17.pl";
-  static const int _port = 3306;
-  static const String _user = "kacper_niezapominapka";
-  static const String _password = "h8QTF6hmstPD8gxbkCVw";
-  static const String _dbName = "kacper_niezapominapka";
-  static const bool _useSSL = false;
+  static const String _host = String.fromEnvironment('DB_HOST', defaultValue: '');
+  static const int _port = int.fromEnvironment('DB_PORT', defaultValue: 3306);
+  static const String _user = String.fromEnvironment('DB_USER', defaultValue: '');
+  static const String _password = String.fromEnvironment('DB_PASS', defaultValue: '');
+  static const String _dbName = String.fromEnvironment('DB_NAME', defaultValue: '');
+  static const bool _useSSL = bool.fromEnvironment('DB_USE_SSL', defaultValue: false);
 
   mysql.ConnectionSettings get _settings => mysql.ConnectionSettings(
     host: _host,
@@ -46,7 +37,6 @@ class AppDatabase {
     return _conn!;
   }
 
-  /// Wymusza ponowne zestawienie połączenia (np. po błędzie sieci).
   Future<mysql.MySqlConnection> reconnect() async {
     try {
       await _conn?.close();
@@ -67,7 +57,6 @@ class AppDatabase {
 
   // --- UŻYTKOWNICY ---
 
-  /// Zwraca istniejącego użytkownika albo tworzy nowego.
   Future<AppUser> upsertUser(String username) async {
     final conn = await connection;
 
