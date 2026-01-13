@@ -1,14 +1,15 @@
 import 'package:niezapominapka/core/db/app_database.dart';
 import 'package:niezapominapka/features/group/shoplist/models/shop_item_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:mysql1/mysql1.dart' as mysql;
 
 part "shop_item_repository.g.dart";
 
 class ShopItemRepository {
   final AppDatabase _appDatabase;
-  Future<Database> _getDb() async {
-    return await _appDatabase.database;
+
+  Future<mysql.MySqlConnection> _getConn() async {
+    return await _appDatabase.connection;
   }
 
   ShopItemRepository(this._appDatabase);
@@ -16,38 +17,37 @@ class ShopItemRepository {
   final String shopItemTableName = "shop_items";
 
   Future<void> addItem(String productName, int groupId) async {
-    final db = await _getDb();
+    final conn = await _getConn();
 
-    var shopItem = ShopItem(groupId: groupId, name: productName);
-    await db.insert(shopItemTableName, shopItem.toMap());
+    await conn.query(
+      'INSERT INTO $shopItemTableName (name, group_id) VALUES (?, ?)',
+      [productName, groupId],
+    );
   }
 
-
   Future<List<ShopItem>> get(int groupId) async {
-    final db = await _getDb();
+    final conn = await _getConn();
 
-    var shopItems = await db.query(shopItemTableName,
-      where: 'group_id = ?',
-      whereArgs: [groupId]
+    final results = await conn.query(
+      'SELECT id, name, group_id FROM $shopItemTableName WHERE group_id = ?',
+      [groupId],
     );
 
-    var mappedShopItems = shopItems.map((si) => ShopItem.fromMap(si)).toList();
-    return mappedShopItems;
+    return results.map((row) => ShopItem.fromMap(row.fields)).toList();
   }
 
   Future<void> removeItem(int itemId) async {
-    final db = await _getDb();
+    final conn = await _getConn();
 
-    await db.delete(shopItemTableName,
-      where: 'id = ?',
-      whereArgs: [itemId]
+    await conn.query(
+      'DELETE FROM $shopItemTableName WHERE id = ?',
+      [itemId],
     );
   }
 }
 
 @riverpod
-ShopItemRepository shopItemRepository(ref){
+ShopItemRepository shopItemRepository(ref) {
   final db = AppDatabase.instance;
-
   return ShopItemRepository(db);
 }

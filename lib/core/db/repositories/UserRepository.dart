@@ -1,61 +1,63 @@
 import 'package:niezapominapka/core/db/app_database.dart';
 import 'package:niezapominapka/features/auth/app_user.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:mysql1/mysql1.dart' as mysql;
 
 part "UserRepository.g.dart";
-
 
 class UserRepository {
   final AppDatabase _appDatabase;
 
-  Future<Database> _getDb() async {
-    return await _appDatabase.database;
+  Future<mysql.MySqlConnection> _getConn() async {
+    return await _appDatabase.connection;
   }
+
   UserRepository(this._appDatabase);
 
   Future<AppUser?> getUser(String username) async {
-    var db = await _getDb();
-    
-    var result = await db.query(
-      'users',
-      where: 'username = ?',
-      whereArgs: [username]
+    final conn = await _getConn();
+
+    final result = await conn.query(
+      'SELECT id, username FROM users WHERE username = ? LIMIT 1',
+      [username],
     );
 
-    if (result.isNotEmpty){
-      return AppUser.fromMap(result.first);
+    if (result.isNotEmpty) {
+      return AppUser.fromMap(result.first.fields);
     }
 
     return null;
   }
 
-  Future<List<AppUser>> getUsersByIds(List<int> usersIds) async{
-    final db = await _getDb();
+  Future<List<AppUser>> getUsersByIds(List<int> usersIds) async {
+    if (usersIds.isEmpty) return [];
 
-    var placeholders = List.filled(usersIds.length, '?').join(',');
+    final conn = await _getConn();
 
-    var results = await db.query('users',
-        where: 'id IN ($placeholders)',
-        whereArgs: usersIds);
+    final placeholders = List.filled(usersIds.length, '?').join(',');
 
-    return results.map((user) => AppUser.fromMap(user)).toList();
+    final result = await conn.query(
+      'SELECT id, username FROM users WHERE id IN ($placeholders)',
+      usersIds,
+    );
+
+    return result.map((row) => AppUser.fromMap(row.fields)).toList();
   }
 
   Future<int> addUser(String username) async {
-    var user = AppUser(username: username);
+    final conn = await _getConn();
 
-    var db = await _getDb();
+    final result = await conn.query(
+      'INSERT INTO users (username) VALUES (?)',
+      [username],
+    );
 
-    var id = db.insert("users", user.toMap());
-
-    return id;
+    return result.insertId!;
   }
 }
 
 @riverpod
-UserRepository userRepository(UserRepositoryRef ref){
+UserRepository userRepository(UserRepositoryRef ref) {
   final db = AppDatabase.instance;
-
   return UserRepository(db);
 }

@@ -1,5 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:mysql1/mysql1.dart' as mysql;
 
 import '../../../../core/db/app_database.dart';
 import '../../../auth/app_user.dart';
@@ -9,82 +9,85 @@ part "group_expenses_repository.g.dart";
 
 class GroupExpensesRepository {
   final AppDatabase _appDatabase;
-  Future<Database> _getDb() async {
-    return await _appDatabase.database;
+
+  Future<mysql.MySqlConnection> _getConn() async {
+    return await _appDatabase.connection;
   }
 
   GroupExpensesRepository(this._appDatabase);
 
   final String tableName = "expenses";
-  final String shoppingItemsTableName = "shopping_items";
   final String payorsTable = "payors";
 
-  Future<int> addExpense(AppUser owner, List<AppUser> payors, String expenseName, double amount, int groupId) async {
-    final db = await _getDb();
+  Future<int> addExpense(
+      AppUser owner,
+      List<AppUser> payors,
+      String expenseName,
+      double amount,
+      int groupId,
+      ) async {
+    final conn = await _getConn();
 
-    // Używamy transakcji, aby mieć pewność, że albo zapisze się WSZYSTKO, albo NIC
-    return await db.transaction((txn) async {
+    final expenseId = await conn.transaction<int>((tx) async {
+      // 1) Nagłówek wydatku
+      final insExpense = await tx.query(
+        'INSERT INTO $tableName (group_id, user_id, date, name, amount) VALUES (?, ?, ?, ?, ?)',
+        [
+          groupId,
+          owner.id!,
+          DateTime.now().toIso8601String(), // trzymamy jako VARCHAR/TEXT
+          expenseName,
+          amount,
+        ],
+      );
+      final expenseId = insExpense.insertId!;
 
-      // 1. Wstawiamy nagłówek wydatku
-      final int expenseId = await txn.insert(tableName, {
-        'user_id': owner.id!,
-        'group_id': groupId,
-        'date': DateTime.now().toIso8601String(),
-        'name': expenseName,
-        'amount': amount
-      });
-
-      txn.rawUpdate('''
+      // 2) Owner +amount do bilansu
+      await tx.query('''
         UPDATE group_members
         SET bilans = bilans + ?
         WHERE user_id = ? AND group_id = ?
       ''', [amount, owner.id!, groupId]);
 
-      final batch = txn.batch();
-      var amountToPayPerPayor = amount / payors.length;
+      // 3) Payors -amount/len + wpisy do payors
+      final amountToPayPerPayor = amount / payors.length;
 
-      for (var payor in payors){
-        batch.rawUpdate('''
+      for (final payor in payors) {
+        await tx.query('''
           UPDATE group_members
           SET bilans = bilans - ?
           WHERE user_id = ? AND group_id = ?
         ''', [amountToPayPerPayor, payor.id, groupId]);
 
-        batch.insert(payorsTable, {
-          'user_id': payor.id,
-          'username': payor.username,
-          'amount': amountToPayPerPayor,
-          'expense_id': expenseId,
-        });
+        await tx.query(
+          'INSERT INTO $payorsTable (user_id, expense_id, username, amount) VALUES (?, ?, ?, ?)',
+          [payor.id, expenseId, payor.username, amountToPayPerPayor],
+        );
       }
 
-      batch.commit(noResult: true);
-
-      // Zwracamy ID nowo utworzonego wydatku
       return expenseId;
     });
+
+    if (expenseId == null) {
+      throw StateError('addExpense: transaction returned null');
+    }
+    return expenseId;
   }
 
   Future<List<Expense>> getExpensesByGroupId(int groupId) async {
-    final db = await _getDb();
+    final conn = await _getConn();
 
-    // 1. Pobierz wszystkie nagłówki wydatków dla danej grupy
-    final List<Map<String, dynamic>> expenseMaps = await db.query(
-      tableName,
-      where: 'group_id = ?',
-      whereArgs: [groupId],
-      orderBy: 'date DESC', // Najnowsze wydatki na górze
+    final results = await conn.query(
+      'SELECT id, group_id, user_id, date, name, amount FROM $tableName WHERE group_id = ? ORDER BY date DESC',
+      [groupId],
     );
 
-    final expenses = expenseMaps.map((map) => Expense.fromMap(map)).toList();
-
-    return expenses;
+    return results.map((row) => Expense.fromMap(row.fields)).toList();
   }
 }
 
 @riverpod
-GroupExpensesRepository groupExpensesRepository(ref){
+GroupExpensesRepository groupExpensesRepository(ref) {
   final db = AppDatabase.instance;
-
   return GroupExpensesRepository(db);
 }

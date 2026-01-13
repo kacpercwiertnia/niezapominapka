@@ -3,7 +3,7 @@ import 'package:niezapominapka/features/auth/app_user.dart';
 import 'package:niezapominapka/features/groups/model/group_member_model.dart';
 import 'package:niezapominapka/features/groups/model/group_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:mysql1/mysql1.dart' as mysql;
 
 part "GroupRepository.g.dart";
 
@@ -13,39 +13,40 @@ class GroupRepository {
   final String tableName = "groups";
   final String relationTableName = "group_members";
 
-  Future<Database> _getDb() async {
-    return await _appDatabase.database;
+  Future<mysql.MySqlConnection> _getConn() async {
+    return await _appDatabase.connection;
   }
+
   GroupRepository(this._appDatabase);
 
   Future<List<AppUser>> getUsersForGroup(int groupId) async {
-    var db = await _getDb();
+    final conn = await _getConn();
 
-    var result = await db.rawQuery('''
+    final result = await conn.query('''
       SELECT u.id, u.username
       FROM users u
       INNER JOIN group_members gm ON gm.user_id = u.id
       WHERE gm.group_id = ?
     ''', [groupId]);
 
-    return result.map((user) => AppUser.fromMap(user)).toList();
+    return result.map((row) => AppUser.fromMap(row.fields)).toList();
   }
-  Future<Group?> getGroupByName(String name) async {
-    var db = await _getDb();
 
-    var group = await db.query(
-      tableName,
-      where: 'name = ?',
-      whereArgs: [name.trim()]
+  Future<Group?> getGroupByName(String name) async {
+    final conn = await _getConn();
+
+    final result = await conn.query(
+      'SELECT id, name FROM $tableName WHERE name = ? LIMIT 1',
+      [name.trim()],
     );
 
-    return group.isNotEmpty ? Group.fromMap(group.first) : null;
+    return result.isNotEmpty ? Group.fromMap(result.first.fields) : null;
   }
 
   Future<List<Group>> getGroupsForUserId(int userId) async {
-    var db = await _getDb();
+    final conn = await _getConn();
 
-    var result = await db.rawQuery('''
+    final result = await conn.query('''
       SELECT g.id, g.name
       FROM groups g
       INNER JOIN group_members gm ON gm.group_id = g.id
@@ -53,45 +54,53 @@ class GroupRepository {
       ORDER BY g.name;
     ''', [userId]);
 
-    if (result.isNotEmpty){
-      var groups = result.map((group) => Group.fromMap(group)).toList();
-      // debugPrint("Z repozytorium przy fetchu");
-      // debugPrint(groups.toString());
-      return groups;
-    }
-
-    return [];
+    return result.map((row) => Group.fromMap(row.fields)).toList();
   }
 
   Future<int> addGroup(String name, int userId) async {
-    var group = Group(name: name.trim());
+    final conn = await _getConn();
 
-    var db = await _getDb();
+    final groupId = await conn.transaction<int>((tx) async {
+      final groupInsert = await tx.query(
+        'INSERT INTO $tableName (name) VALUES (?)',
+        [name.trim()],
+      );
+      final groupId = groupInsert.insertId!;
 
-    var id = await db.insert(tableName, group.toMap());
-    db.insert(relationTableName, GroupMember(userId: userId, groupId: id).toMap());
+      await tx.query(
+        'INSERT INTO $relationTableName (user_id, group_id, bilans) VALUES (?, ?, 0)',
+        [userId, groupId],
+      );
 
-    return id;
+      return groupId;
+    });
+
+    if (groupId == null) {
+      throw StateError('addGroup: transaction returned null');
+    }
+    return groupId;
   }
 
   Future<int?> addUserToGroup(int userId, int groupId) async {
-    var db = await _getDb();
+    final conn = await _getConn();
 
     try {
-      final id = await db.insert(
-        relationTableName,
-        GroupMember(userId: userId, groupId: groupId).toMap(),
+      final res = await conn.query(
+        'INSERT INTO $relationTableName (user_id, group_id, bilans) VALUES (?, ?, 0)',
+        [userId, groupId],
       );
-      return id; // id wstawionego wiersza
-    } catch (e) {
+      // UWAGA: dla tabeli z PK złożonym MySQL może zwrócić insertId = 0.
+      // Zwracamy 1 jako "ok" jeśli affectedRows == 1.
+      if ((res.affectedRows ?? 0) == 1) return 1;
+      return null;
+    } catch (_) {
       return null;
     }
   }
 }
 
 @riverpod
-GroupRepository groupRepository(GroupRepositoryRef ref){
+GroupRepository groupRepository(GroupRepositoryRef ref) {
   final db = AppDatabase.instance;
-
   return GroupRepository(db);
 }
